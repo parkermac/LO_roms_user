@@ -107,7 +107,7 @@ export   ROMS_APPLICATION=UPWELLING
 # Set a local environmental variable to define the path to the directories
 # where all this project's files are kept.
 
-export        MY_ROOT_DIR=${HOME}/ocean/repository
+export        MY_ROOT_DIR=/gscratch/macc/parker
 export     MY_PROJECT_DIR=${PWD}
 
 # The path to the user's local current ROMS source code.
@@ -120,7 +120,7 @@ export     MY_PROJECT_DIR=${PWD}
 # machine. This script is designed to more easily allow for differing paths
 # to the code and inputs on differing machines.
 
- export       MY_ROMS_SRC=${MY_ROOT_DIR}/trunk
+ export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source
 
 # Set path of the directory containing makefile configuration (*.mk) files.
 # The user has the option to specify a customized version of these files
