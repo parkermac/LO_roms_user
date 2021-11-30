@@ -30,8 +30,9 @@
 #
          FC_config?= mpif90
                FC := ifort
-           FFLAGS := -fp-model precise
-           FFLAGS += -heap-arrays
+           FFLAGS := -heap-arrays -fp-model precise
+#           FFLAGS := -fp-model precise
+#           FFLAGS += -heap-arrays
        FIXEDFLAGS := -nofree
         FREEFLAGS := -free
               CPP := /usr/bin/cpp
