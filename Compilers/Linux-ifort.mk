@@ -68,8 +68,8 @@ ifdef USE_ROMS
            FFLAGS += -gen-interfaces
  else
            FFLAGS += -ip -O3
-           FFLAGS += -traceback
-           FFLAGS += -check uninit
+#           FFLAGS += -traceback
+#           FFLAGS += -check uninit
  endif
         MDEPFLAGS := --cpp --fext=f90 --file=- --objdir=$(SCRATCH_DIR)
 endif
