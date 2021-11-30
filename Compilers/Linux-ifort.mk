@@ -184,6 +184,7 @@ endif
 ifdef USE_NETCDF4
         NF_CONFIG ?= nf-config
     NETCDF_INCDIR ?= $(shell $(NF_CONFIG) --prefix)/include
+    NETCDF_LIBDIR ?= $(shell $(NC_CONFIG) --prefix)/lib
              LIBS += $(shell $(NF_CONFIG) --flibs)
            INCDIR += $(NETCDF_INCDIR) $(INCDIR)
 else
