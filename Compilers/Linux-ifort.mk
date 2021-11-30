@@ -28,6 +28,7 @@
 #
 # First the defaults
 #
+         FC_config?= mpif90
                FC := ifort
            FFLAGS := -fp-model precise
            FFLAGS += -heap-arrays
@@ -40,7 +41,8 @@
             ULIBS :=
              LIBS := $(SCRATCH_DIR)/libNLM.a         # cyclic dependencies
        MOD_SUFFIX := mod
-               LD := $(FC)
+              LD  ?= $(shell $(FC_config) -link-info)
+#               LD := $(FC)
           LDFLAGS :=
                AR := ar
           ARFLAGS := r
