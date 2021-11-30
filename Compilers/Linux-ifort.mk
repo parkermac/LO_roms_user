@@ -30,8 +30,8 @@
 #
          FC_config?= mpif90
                FC := ifort
-           FFLAGS := -fp-model precise
-           FFLAGS += -heap-arrays
+#           FFLAGS := -fp-model precise
+#           FFLAGS += -heap-arrays
        FIXEDFLAGS := -nofree
         FREEFLAGS := -free
               CPP := /usr/bin/cpp
@@ -67,7 +67,7 @@ ifdef USE_ROMS
            FFLAGS += -warn interfaces,nouncalled
            FFLAGS += -gen-interfaces
  else
-           FFLAGS += -ip -O2
+#           FFLAGS += -ip -O3
 #           FFLAGS += -traceback
 #           FFLAGS += -check uninit
  endif
