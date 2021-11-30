@@ -186,7 +186,6 @@ ifdef USE_NETCDF4
     NETCDF_INCDIR ?= $(shell $(NF_CONFIG) --prefix)/include
              LIBS += $(shell $(NF_CONFIG) --flibs)
            INCDIR += $(NETCDF_INCDIR) $(INCDIR)
-           FFLAGS += $(shell $(NC_CONFIG) --fflags)
 else
     NETCDF_INCDIR ?= /opt/intelsoft/serial/netcdf3/include
     NETCDF_LIBDIR ?= /opt/intelsoft/serial/netcdf3/lib
