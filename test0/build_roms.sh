@@ -128,7 +128,7 @@ export     MY_PROJECT_DIR=${PWD}
 # ${MY_ROMS_SRC}/Compilers. If this is the case, you need to keep these
 # configurations files up-to-date.
 
- export         COMPILERS=${MY_ROOT_DIR}/LO_roms_user/Compilers
+ export         COMPILERS=${MY_ROOT_DIR}/LO_roms_user/Compilers_klone
 #export         COMPILERS=${HOME}/Compilers/ROMS
 
 #--------------------------------------------------------------------------
