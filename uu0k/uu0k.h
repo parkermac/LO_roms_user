@@ -14,39 +14,45 @@
 
 #define UV_ADV
 #define UV_COR
-#define UV_LDRAG
-#define UV_VIS2
-#undef  MIX_GEO_UV
-#define MIX_S_UV
-#define SPLINES_VDIFF
-#define SPLINES_VVISC
+#define UV_QDRAG
+
 #define DJ_GRADPS
 #define TS_DIF2
-#undef  TS_DIF4
-#undef  MIX_GEO_TS
-#define MIX_S_TS
-
+#define  MIX_GEO_TS
 #define SALINITY
 #define SOLVE3D
-#define AVERAGES
-#define DIAGNOSTICS_TS
-#define DIAGNOSTICS_UV
 
-#define ANA_GRID
-#define ANA_INITIAL
+#undef AVERAGES
+#undef DIAGNOSTICS_TS
+#undef DIAGNOSTICS_UV
+
+/* LiveOcean specific choices */
+#define NONLIN_EOS
+#define MASKING
+#define SPHERICAL
+#define SOLAR_SOURCE
+#define BULK_FLUXES
+#define LONGWAVE_OUT
+#define DEFLATE
+#define HDF5
+#define RADIATION_2D
+#undef RAMP_TIDES
+#define SSH_TIDES
+#define UV_TIDES
+#define ADD_FSOBC
+#define ADD_M2OBC
+
 #define ANA_SMFLUX
 #define ANA_STFLUX
 #define ANA_SSFLUX
 #define ANA_BTFLUX
 #define ANA_BSFLUX
 
-#if defined GLS_MIXING || defined MY25_MIXING
-# define KANTHA_CLAYSON
+#define GLS_MIXING
+#if defined GLS_MIXING
+# define CANUTO_A
 # define N2S2_HORAVG
 # define RI_SPLINES
-#else
-# define ANA_VMIX
-#endif
 
 #if defined BIO_FENNEL  || defined ECOSIM || \
     defined NPZD_POWELL || defined NEMURO
