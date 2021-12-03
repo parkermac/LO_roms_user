@@ -53,6 +53,7 @@
 # define CANUTO_A
 # define N2S2_HORAVG
 # define RI_SPLINES
+#endif
 
 #if defined BIO_FENNEL  || defined ECOSIM || \
     defined NPZD_POWELL || defined NEMURO
