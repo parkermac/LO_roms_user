@@ -41,6 +41,25 @@
 #define UV_TIDES
 #define ADD_FSOBC
 #define ADD_M2OBC
+/* LiveOcean bio choices */
+#define BIOLOGY
+#define BIO_FENNEL
+#ifdef BIO_FENNEL
+#  undef DIAGNOSTICS
+#  undef DIAGNOSTICS_BIO
+#  undef DIAGNOSTICS_TS
+#  define BIO_SEDIMENT
+#  define OXYGEN
+#  define CARBON
+#  define pCO2_RZ
+#  define ANA_SPFLUX
+#  define ANA_BPFLUX
+#  define SDEPEND_LIGHTATT
+#  define OPT_UPTAKE
+#  undef NO_GROW_SALISH
+#  undef  NPZDO_BANAS_DEBUG
+#  undef COAG_PHYTOS
+#endif
 
 #define ANA_SMFLUX
 #define ANA_STFLUX
