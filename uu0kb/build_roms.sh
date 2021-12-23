@@ -102,7 +102,7 @@ done
 # determine the name of the ".h" header file with the application
 # CPP definitions.
 
-export   ROMS_APPLICATION=UU0K
+export   ROMS_APPLICATION=UU0KB
 
 # Set a local environmental variable to define the path to the directories
 # where all this project's files are kept.
@@ -242,7 +242,7 @@ fi
 
  export     MY_HEADER_DIR=${MY_PROJECT_DIR}
 
- export MY_ANALYTICAL_DIR=${MY_PROJECT_DIR}
+ export MY_ANALYTICAL_DIR=${MY_ROOT_DIR}/LO_roms_user/Biology #${MY_PROJECT_DIR}
 
 # Put the binary to execute in the following directory.
 
