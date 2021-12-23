@@ -74,6 +74,7 @@
 # define RI_SPLINES
 #endif
 
+/*
 #if defined BIO_FENNEL  || defined ECOSIM || \
     defined NPZD_POWELL || defined NEMURO
 # define ANA_BIOLOGY
@@ -93,6 +94,7 @@
 # define BIO_SEDIMENT
 # define DIAGNOSTICS_BIO
 #endif
+*/
 
 #ifdef PERFECT_RESTART
 # undef  AVERAGES
