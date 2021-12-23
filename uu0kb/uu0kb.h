@@ -42,7 +42,6 @@
 #define ADD_FSOBC
 #define ADD_M2OBC
 /* LiveOcean bio choices */
-#define BIOLOGY
 #define BIO_FENNEL
 #ifdef BIO_FENNEL
 #  undef DIAGNOSTICS
