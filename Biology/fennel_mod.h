@@ -7,6 +7,9 @@
 !    See License_ROMS.txt                                              !
 !=======================================================================
 !                                                                      !
+!          *** modified to match Banas/Davis/Siedlecki ***             !
+!                     Parker MacCready 2021.12.23                      !
+!                                                                      !
 !  Parameters for Fennel et al. (2006) model:                          !
 !                                                                      !
 !   AttSW    Light attenuation due to sea water [1/m].                 !
