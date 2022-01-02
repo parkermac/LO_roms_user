@@ -1,3 +1,5 @@
+      MODULE mod_biology
+!
 !npzdo_Banas_mod.h created by K. Davis 2011-03-31, based on fennel_mod.h
 !svn $Id: fennel_mod.h 556 2011-04-26 22:34:37Z arango $
 !================================================== Hernan G. Arango ===
@@ -18,10 +20,10 @@
   integer :: iZoop                  ! Zooplankton concentration
   integer :: iDetr                  ! Detritus concentration
   integer :: iLDetr                  ! Detritus concentration
-  integer :: iOxyg				  ! Oxygen Concentration
-  integer :: iTIC_				  ! DIC Concentration
-  integer :: iTAlk				  ! ALK Concentration
-  integer :: iCaCO3				  ! CaCO3 Concentration
+  integer :: iOxyg          ! Oxygen Concentration
+  integer :: iTIC_          ! DIC Concentration
+  integer :: iTAlk          ! ALK Concentration
+  integer :: iCaCO3         ! CaCO3 Concentration
 
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
 !
@@ -73,9 +75,9 @@ integer  :: iDsed                        ! sed remin flux
  real(r8), allocatable :: pCO2air(:)            ! ppmv
 
 
-	CONTAINS
+  CONTAINS
 
-	SUBROUTINE initialize_biology
+  SUBROUTINE initialize_biology
 !
 !=======================================================================
 !                                                                      !
@@ -86,7 +88,7 @@ integer  :: iDsed                        ! sed remin flux
 !
 !  Local variable declarations
 !
-	integer :: i, ic
+  integer :: i, ic
 !
 !-----------------------------------------------------------------------
 !  Set number of biological tracers.
@@ -106,7 +108,7 @@ integer  :: iDsed                        ! sed remin flux
       NBT=5
 # endif
 #endif
-!!	NBT=5
+!!  NBT=5
 
 #if defined DIAGNOSTICS && defined DIAGNOSTICS_BIO
 !
@@ -154,104 +156,128 @@ integer  :: iDsed                        ! sed remin flux
 !  Allocate various module variables.
 !-----------------------------------------------------------------------
 !
-	IF (.not.allocated(BioIter)) THEN
-	 allocate ( BioIter(Ngrids) )
-	END IF
-	IF (.not.allocated(PARfrac)) THEN
-	 allocate ( PARfrac(Ngrids) )
-	END IF
-	IF (.not.allocated(AttSW)) THEN
-	 allocate ( AttSW(Ngrids) )
-	END IF
-	IF (.not.allocated(AttP)) THEN
-	 allocate ( AttP(Ngrids) )
-	END IF
-	IF (.not.allocated(AttS)) THEN
-	 allocate ( AttS(Ngrids) )
-	END IF
-	IF (.not.allocated(phyAlpha)) THEN
-	 allocate ( phyAlpha(Ngrids) )
-	END IF
-	IF (.not.allocated(phyMu0)) THEN
-	 allocate ( phyMu0(Ngrids) )
-	END IF
-	IF (.not.allocated(phyKs)) THEN
-	 allocate ( phyKs(Ngrids) )
-	END IF
-	IF (.not.allocated(phyMin)) THEN
-	 allocate ( phyMin(Ngrids) )
-	END IF
-	IF (.not.allocated(phyM)) THEN
-	 allocate ( phyM(Ngrids) )
-	END IF
-	IF (.not.allocated(zooI0)) THEN
-	 allocate ( zooI0(Ngrids) )
-	END IF
-	IF (.not.allocated(zooKs)) THEN
-	 allocate ( zooKs(Ngrids) )
-	END IF
-	IF (.not.allocated(zooEps)) THEN
-	 allocate ( zooEps(Ngrids) )
-	END IF
-	IF (.not.allocated(zooFegest)) THEN
-	 allocate ( zooFegest(Ngrids) )
-	END IF
-	IF (.not.allocated(zooMin)) THEN
-	 allocate ( zooMin(Ngrids) )
-	END IF
-	IF (.not.allocated(zooZeta)) THEN
-	 allocate ( zooZeta(Ngrids) )
-	END IF
-	IF (.not.allocated(detRemin)) THEN
-	 allocate ( detRemin(Ngrids) )
-	END IF
-	IF (.not.allocated(CoagR)) THEN
-	 allocate ( CoagR(Ngrids) )
-	END IF
-	IF (.not.allocated(detWsink)) THEN
-	 allocate ( detWsink(Ngrids) )
-	END IF
-	IF (.not.allocated(LdetWsink)) THEN
-	 allocate ( LdetWsink(Ngrids) )
-	END IF
-        IF (.not.allocated(pCO2air)) THEN
-         allocate ( pCO2air(Ngrids) )
-        END IF
+  IF (.not.allocated(BioIter)) THEN
+   allocate ( BioIter(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(PARfrac)) THEN
+   allocate ( PARfrac(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(AttSW)) THEN
+   allocate ( AttSW(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(AttP)) THEN
+   allocate ( AttP(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(AttS)) THEN
+   allocate ( AttS(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(phyAlpha)) THEN
+   allocate ( phyAlpha(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(phyMu0)) THEN
+   allocate ( phyMu0(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(phyKs)) THEN
+   allocate ( phyKs(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(phyMin)) THEN
+   allocate ( phyMin(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(phyM)) THEN
+   allocate ( phyM(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooI0)) THEN
+   allocate ( zooI0(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooKs)) THEN
+   allocate ( zooKs(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooEps)) THEN
+   allocate ( zooEps(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooFegest)) THEN
+   allocate ( zooFegest(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooMin)) THEN
+   allocate ( zooMin(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(zooZeta)) THEN
+   allocate ( zooZeta(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(detRemin)) THEN
+   allocate ( detRemin(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(CoagR)) THEN
+   allocate ( CoagR(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(detWsink)) THEN
+   allocate ( detWsink(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(LdetWsink)) THEN
+   allocate ( LdetWsink(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
+  IF (.not.allocated(pCO2air)) THEN
+   allocate ( pCO2air(Ngrids) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
 !
 
 !
 !  Allocate biological tracer vector.
 !
-	IF (.not.allocated(idbio)) THEN
-	allocate ( idbio(NBT) )
-	END IF
+  IF (.not.allocated(idbio)) THEN
+   allocate ( idbio(NBT) )
+   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+  END IF
 !
 !  Set identification indices.
 !
-	ic=NAT+NPT+NCS+NNS
-	DO i=1,NBT
-	idbio(i)=ic+i
-	END DO
-	iNO3_=ic+1
-	iPhyt=ic+2
-	iZoop=ic+3
-	iDetr=ic+4
+  ic=NAT+NPT+NCS+NNS
+  DO i=1,NBT
+  idbio(i)=ic+i
+  END DO
+  iNO3_=ic+1
+  iPhyt=ic+2
+  iZoop=ic+3
+  iDetr=ic+4
         iLDetr=ic+5
-	ic=ic+5
+  ic=ic+5
 #ifdef OXYGEN
-	iOxyg=ic+1
-	ic=ic+1
+  iOxyg=ic+1
+  ic=ic+1
 #endif
 #ifdef CARBON
-	iTIC_=ic+1
-	iTAlk=ic+2
+  iTIC_=ic+1
+  iTAlk=ic+2
 
-
-	iCaCO3=ic+3
+  iCaCO3=ic+3
         ic=ic+3
 
 #endif
 
-	RETURN
-	END SUBROUTINE initialize_biology
+  RETURN
+  END SUBROUTINE initialize_biology
+  
+  END MODULE mod_biology
+
 
