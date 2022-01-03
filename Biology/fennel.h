@@ -82,7 +82,7 @@
 #endif
 #ifdef CARBON
      &                   OCEAN(ng) % pH,                                &
-     &                   OCEAN(ng) % pHfull,                            &
+!    &                   OCEAN(ng) % pHfull,                            &
 #endif
 
 #ifdef DIAGNOSTICS_BIO
@@ -119,7 +119,8 @@
 # endif
 #endif
 #ifdef CARBON
-     &                         pH,pHfull,                               &
+     &                         pH,                                      &
+!    &                         pH,pHfull,                               &
 #endif
 #ifdef DIAGNOSTICS_BIO
      &                         DiaBio2d, DiaBio3d,                      &
@@ -163,7 +164,7 @@
 # endif
 # ifdef CARBON
       real(r8), intent(inout) :: pH(LBi:,LBj:)
-     real(r8), intent(inout):: pHfull(LBi:,LBj:,UBk:) 
+!     real(r8), intent(inout):: pHfull(LBi:,LBj:,UBk:) 
 
 # endif
 # ifdef DIAGNOSTICS_BIO
