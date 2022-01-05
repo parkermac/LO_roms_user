@@ -1,4 +1,4 @@
-      SUBROUTINE biology (ng,tile)
+      MODULE biology_mod
 !
 ! **********************************************************************
 ! NPZDO ecosystem model, adapted from fennel.h. (The architecture of the other
@@ -22,6 +22,18 @@
 ! v0.1  CARBON code removed
 ! **********************************************************************
 !
+!
+      implicit none
+!
+      PRIVATE
+      PUBLIC  :: biology
+!
+      CONTAINS
+!
+!***********************************************************************
+      SUBROUTINE biology (ng,tile)
+!***********************************************************************
+!
       USE mod_param
 #ifdef DIAGNOSTICS_BIO
       USE mod_diags
@@ -32,11 +44,16 @@
       USE mod_ocean
       USE mod_stepping
 !
+      implicit none
+!
 !  Imported variable declarations.
 !
       integer, intent(in) :: ng, tile
 !
 !  Local variable declarations.
+!
+      character (len=*), parameter :: MyFile =                          &
+     &  __FILE__
 !
 #include "tile.h"
 !
@@ -48,7 +65,8 @@
       IF (Lbiofile(iNLM).and.(tile.eq.0)) THEN
 #endif
         Lbiofile(iNLM)=.FALSE.
-        BIONAME(iNLM)=__FILE__
+        BIONAME(iNLM)=MyFile
+!        BIONAME(iNLM)=__FILE__
       END IF
 !
 #ifdef PROFILE
@@ -2316,5 +2334,5 @@
       RETURN
       END SUBROUTINE pCO2_water
 # endif
-
+      END MODULE biology_mod
 
