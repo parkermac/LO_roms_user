@@ -18,6 +18,8 @@
       USE mod_ncparam
       USE mod_scalars
 !
+      USE inp_decode_mod
+!
       implicit none
 !
 !  Imported variable declarations
@@ -31,7 +33,7 @@
       integer :: iTrcStr, iTrcEnd
       integer :: i, ifield, igrid, itracer, itrc, ng, nline, status
 
-      integer :: decode_line, load_i, load_l, load_lbc, load_r
+!      integer :: decode_line, load_i, load_l, load_lbc, load_r
 
       logical, dimension(Ngrids) :: Lbio
       logical, dimension(NBT,Ngrids) :: Ltrc
