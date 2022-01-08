@@ -52,7 +52,6 @@
 #  define OXYGEN
 #  define CARBON
 #  define pCO2_RZ
-# define ANA_BIOLOGY
 # define ANA_SPFLUX
 # define ANA_BPFLUX
 # define ANA_SRFLUX
