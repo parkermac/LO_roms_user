@@ -1895,6 +1895,26 @@
   'nulvar'
   1.0d0
 
+! This variable added for NPZDO_BANAS
+'river_phytoplankton'                              ! Input/Output 
+  'river runoff phytoplankton concentration' 
+  'millimole_nitrogen meter-3'                     ! [millimole/m3] 
+  'river_phytoplankton, scalar, series' 
+  'river_time'
+  'idRtrc(iPhyt)'
+  'nulvar' 
+  1.0d0 
+
+! This variable added for NPZDO_BANAS
+'river_zooplankton'                                ! Input/Output 
+  'river runoff zooplankton concentration' 
+  'millimole_nitrogen meter-3'                     ! [millimole/m3] 
+  'river_zooplankton, scalar, series' 
+  'river_time'
+  'idRtrc(iZoop)'
+  'nulvar'
+  1.0d0 
+
 'river_NH4'                                        ! Input
   'river runoff NH4'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
@@ -1931,14 +1951,34 @@
   'nulvar'
   1.0d0
 
+! This variable changed for NPZDO_BANAS
 'river_detritus'                                   ! Input
   'river runoff detritus'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'river_detritus, scalar, series'
   'river_time'
-  'idRtrc(iSDet)'
+  'idRtrc(iDetr)'
   'nulvar'
   1.0d0
+
+! This variable changed for NPZDO_BANAS
+'river_Ldetritus'                                   ! Input
+  'river runoff detritus'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'river_detritus, scalar, series'
+  'river_time'
+  'idRtrc(iLDetr)'
+  'nulvar'
+  1.0d0
+
+!'river_detritus'                                   ! Input
+!  'river runoff detritus'
+!  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+!  'river_detritus, scalar, series'
+!  'river_time'
+!  'idRtrc(iSDet)'
+!  'nulvar'
+!  1.0d0
 
 'river_SDeN'                                       ! Input
   'river runoff SDeN'
@@ -2003,6 +2043,16 @@
   'nulvar'
   1.0d0
 
+! This variable added for NPZDO_BANAS
+'river_CaCO3'                                        ! Input
+  'river runoff CaCO3'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'river_CaCO3, scalar, series'
+  'river_time'
+  'idRtrc(iCaCO3)'
+  'nulvar'
+  1.0d0
+
 'river_alkalinity'                                 ! Input
   'river runoff alkalinity'
   'milliequivalents meter-3'                       ! [milliequivalens/m3]
@@ -2012,14 +2062,24 @@
   'nulvar'
   1.0d0
 
-'river_Oxyg'                                       ! Input
+! This variable added for NPZDO_BANAS
+'river_oxygen'                                       ! Input
   'river runoff oxygen'
   'millimole_oxygen meter-3'                       ! [millimole/m3]
-  'river_Oxyg, scalar, series'
+  'river_oxygen, scalar, series'
   'river_time'
   'idRtrc(iOxyg)'
   'nulvar'
   1.0d0
+
+!'river_Oxyg'                                       ! Input
+!  'river runoff oxygen'
+!  'millimole_oxygen meter-3'                       ! [millimole/m3]
+!  'river_Oxyg, scalar, series'
+!  'river_time'
+!  'idRtrc(iOxyg)'
+!  'nulvar'
+!  1.0d0
 
 !
 !------------------------------------------------------------------------------
@@ -3146,14 +3206,14 @@
   'r3dvar'
   1.0d0
 
-'detritus'                                         ! Input/Output
-  'detritus concentration'
-  'millimole_nitrogen meter-3'                     ! [millimole/m3]
-  'detritus, scalar, series'
-  'ocean_time'
-  'idTvar(iSDet)'
-  'r3dvar'
-  1.0d0
+!'detritus'                                         ! Input/Output
+!  'detritus concentration'
+!  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+!  'detritus, scalar, series'
+!  'ocean_time'
+!  'idTvar(iSDet)'
+!  'r3dvar'
+!  1.0d0
 
 'detritus'                                         ! Input
   'detritus concentration functional'
@@ -3163,6 +3223,27 @@
   'idTads(iSDet)'
   'r3dvar'
   1.0d0
+  
+! this variable added for NPZD_BANAS
+'detritus'                                         ! Input/Output
+  'detritus concentration'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'detritus, scalar, series'
+  'ocean_time'
+  'idTvar(iDetr)'
+  'r3dvar'
+  1.0d0
+
+! this variable added for NPZD_BANAS
+'Ldetritus'                                         ! Input/Output
+  'Ldetritus concentration'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'Ldetritus, scalar, series'
+  'ocean_time'
+  'idTvar(iLDetr)'
+  'r3dvar'
+  1.0d0
+
 
 'LdetritusN'                                       ! Input/Output
   'large fraction nitrogen detritus concentration'
@@ -3323,6 +3404,16 @@
   'Oxygen, scalar, series'
   'ocean_time'
   'idTads(iOxyg)'
+  'r3dvar'
+  1.0d0
+
+! this variable added for NPZD_BANAS
+'CaCO3'                                              ! Input/Output
+  'Calcium Carbonate'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'CaCO3, scalar, series'
+  'ocean_time'
+  'idTvar(iCaCO3)'
   'r3dvar'
   1.0d0
 
@@ -3550,7 +3641,8 @@
   'nulvar'
   1.0d0
 
-'alkalinity_east'                                  ! Input
+! alkalinity_ changed to Talk_ for these 4 for NPZD_BANAS
+'Talk_east'                                  ! Input
   'alkalinity eastern boundary condition'
   'milliequivalents meter-3'                       ! [milliequivalents/m3]
   'alkalinity_east, scalar, series'
@@ -3559,7 +3651,7 @@
   'nulvar'
   1.0d0
 
-'alkalinity_west'                                  ! Input
+'Talk_west'                                  ! Input
   'alkalinity western boundary condition'
   'milliequivalents meter-3'                       ! [milliequivalents/m3]
   'alkalinity_west, scalar, series'
@@ -3568,7 +3660,7 @@
   'nulvar'
   1.0d0
 
-'alkalinity_north'                                 ! Input
+'Talk_north'                                 ! Input
   'alkalinity northern boundary condition'
   'milliequivalents meter-3'                       ! [milliequivalents/m3]
   'alkalinity_north, scalar, series'
@@ -3577,7 +3669,7 @@
   'nulvar'
   1.0d0
 
-'alkalinity_south'                                 ! Input
+'Talk_south'                                 ! Input
   'alkalinity southern boundary condition'
   'milliequivalents meter-3'                       ! [milliequivalents/m3]
   'alkalinity_south, scalar, series'
@@ -3946,11 +4038,12 @@
   'nulvar'
   1.0d0
 
+! zoop_time changed to salt_time for these 4 for NPZD_BANAS
 'zoop_east'                                        ! Input
   'zooplankton eastern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'zoop_east, scalar, series'
-  'zoop_time'
+  'salt_time'
   'idTbry(ieast,iZoop)'
   'nulvar'
   1.0d0
@@ -3959,7 +4052,7 @@
   'zooplankton western boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'zoop_west, scalar, series'
-  'zoop_time'
+  'salt_time'
   'idTbry(iwest,iZoop)'
   'nulvar'
   1.0d0
@@ -3968,7 +4061,7 @@
   'zooplankton southern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'zoop_south, scalar, series'
-  'zoop_time'
+  'salt_time'
   'idTbry(isouth,iZoop)'
   'nulvar'
   1.0d0
@@ -3977,7 +4070,7 @@
   'zooplankton northern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'zoop_north, scalar, series'
-  'zoop_time'
+  'salt_time'
   'idTbry(inorth,iZoop)'
   'nulvar'
   1.0d0
@@ -4126,12 +4219,14 @@
   'nulvar'
   1.0d0
 
+! iSDet changed to iDetr for these 4 for for NPZD_BANAS
+! also detritus time changed to salt_time
 'detritus_east'                                    ! Input
   'detritus eastern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'detritus_east, scalar, series'
-  'detritus_time'
-  'idTbry(ieast,iSDet)'
+  'salt_time'
+  'idTbry(ieast,iDetr)'
   'nulvar'
   1.0d0
 
@@ -4139,8 +4234,8 @@
   'detritus western boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'detritus_west, scalar, series'
-  'detritus_time'
-  'idTbry(iwest,iSDet)'
+  'salt_time'
+  'idTbry(iwest,iDetr)'
   'nulvar'
   1.0d0
 
@@ -4148,8 +4243,8 @@
   'detritus southern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'detritus_south, scalar, series'
-  'detritus_time'
-  'idTbry(isouth,iSDet)'
+  'salt_time'
+  'idTbry(isouth,iDetr)'
   'nulvar'
   1.0d0
 
@@ -4157,8 +4252,8 @@
   'detritus northern boundary condition'
   'millimole_nitrogen meter-3'                     ! [millimole/m3]
   'detritus_north, scalar, series'
-  'detritus_time'
-  'idTbry(inorth,iSDet)'
+  'salt_time'
+  'idTbry(inorth,iDetr)'
   'nulvar'
   1.0d0
 
@@ -4375,6 +4470,79 @@
   'RDeC_south, scalar, series'
   'RDeC_time'
   'idTbry(isouth,iRDeC)'
+  'nulvar'
+  1.0d0
+  
+! these  8 variables added for NPZD_BANAS
+'Ldetritus_east'                                    ! Input
+  'L detritus eastern boundary condition'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'detritus_east, scalar, series'
+  'salt_time'
+  'idTbry(ieast,iLDetr)'
+  'nulvar'
+  1.0d0
+
+'Ldetritus_west'                                    ! Input
+  'L detritus western boundary condition'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'Ldetritus_west, scalar, series'
+  'salt_time'
+  'idTbry(iwest,iLDetr)'
+  'nulvar'
+  1.0d0
+
+'Ldetritus_south'                                   ! Input
+  'detritus southern boundary condition'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'detritus_south, scalar, series'
+  'salt_time'
+  'idTbry(isouth,iLDetr)'
+  'nulvar'
+  1.0d0
+
+'Ldetritus_north'                                   ! Input
+  'L detritus northern boundary condition'
+  'millimole_nitrogen meter-3'                     ! [millimole/m3]
+  'L detritus_north, scalar, series'
+  'salt_time'
+  'idTbry(inorth,iLDetr)'
+  'nulvar'
+  1.0d0
+  
+'CaCO3_east'                                         ! Input
+  'CaCO3 eastern boundary condition'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'CaCO3_east, scalar, series'
+  'salt_time'
+  'idTbry(ieast,iCaCO3)'
+  'nulvar'
+  1.0d0
+
+'CaCO3_west'                                         ! Input
+  'CaCO3 western boundary condition'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'CaCO3_west, scalar, series'
+  'salt_time'
+  'idTbry(iwest,iCaCO3)'
+  'nulvar'
+  1.0d0
+
+'CaCO3_north'                                        ! Input
+  'CaCO3 northern boundary condition'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'CaCO3_north, scalar, series'
+  'salt_time'
+  'idTbry(inorth,iCaCO3)'
+  'nulvar'
+  1.0d0
+
+'CaCO3_south'                                        ! Input
+  'CaCO3 southern boundary condition'
+  'millimole_carbon meter-3'                       ! [millimole/m3]
+  'CaCO3_south, scalar, series'
+  'salt_time'
+  'idTbry(isouth,iCaCO3)'
   'nulvar'
   1.0d0
 
