@@ -52,8 +52,10 @@
 #  define OXYGEN
 #  define CARBON
 #  define pCO2_RZ
-#  define ANA_SPFLUX
-#  define ANA_BPFLUX
+# define ANA_BIOLOGY
+# define ANA_SPFLUX
+# define ANA_BPFLUX
+# define ANA_SRFLUX
 #  define SDEPEND_LIGHTATT
 #  define OPT_UPTAKE
 #  undef NO_GROW_SALISH
