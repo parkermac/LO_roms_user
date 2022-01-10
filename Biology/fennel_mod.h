@@ -247,7 +247,7 @@ integer  :: iDsed                        ! sed remin flux
 !
   IF (.not.allocated(idbio)) THEN
    allocate ( idbio(NBT) )
-   Dmem(1)=Dmem(1)+REAL(Ngrids,r8)
+   Dmem(1)=Dmem(1)+REAL(NBT,r8)
   END IF
 !
 !  Set identification indices.
