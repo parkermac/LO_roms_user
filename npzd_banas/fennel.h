@@ -707,33 +707,50 @@
 !  other attenuation contributions like suspended sediment or CDOM
 !  modify AttFac.
 !
-                Att=(AttSW(ng)+                                         &
-     &               AttChl(ng)*Bio(i,k,iChlo)+                         &
-     &               AttFac)*                                           &
+!                 Att=(AttSW(ng)+                                         &
+!      &               AttChl(ng)*Bio(i,k,iChlo)+                         &
+!      &               AttFac)*                                           &
+!      &               (z_w(i,j,k)-z_w(i,j,k-1))
+! PM Edit
+                Att=(AttSW_nb(ng)+                                         &
+     &               AttChl_nb(ng)*Bio(i,k,iChlo)-                         &
+     &               AttFW_nb*(Bio(i,k,isalt)-32.0_r0))*                   &
      &               (z_w(i,j,k)-z_w(i,j,k-1))
+! End PM Edit
                 ExpAtt=EXP(-Att)
                 Itop=PAR
                 PAR=Itop*(1.0_r8-ExpAtt)/Att    ! average at cell center
 !
 !  Compute Chlorophyll-a phytoplankton ratio, [mg Chla / (mg C)].
 !
-                cff=PhyCN(ng)*12.0_r8
-                Chl2C=MIN(Bio(i,k,iChlo)/(Bio(i,k,iPhyt)*cff+eps),      &
-     &                    Chl2C_m(ng))
+!                 cff=PhyCN(ng)*12.0_r8
+!                 Chl2C=MIN(Bio(i,k,iChlo)/(Bio(i,k,iPhyt)*cff+eps),      &
+!      &                    Chl2C_m(ng))
+! PM Edit
+                Chl2C=2.5_r8
+! End PM Edit
 !
 !  Temperature-limited and light-limited growth rate (Eppley, R.W.,
 !  1972, Fishery Bulletin, 70: 1063-1085; here 0.59=ln(2)*0.851).
 !  Check value for Vp is 2.9124317 at 19.25 degC.
 !
-                Vp=Vp0(ng)*0.59_r8*(1.066_r8**Bio(i,k,itemp))
-                fac1=PAR*PhyIS(ng)
+!                 Vp=Vp0(ng)*0.59_r8*(1.066_r8**Bio(i,k,itemp))
+!                 fac1=PAR*PhyIS(ng)
+! PM Edit
+                Vp=1.7_r8
+                fac1=PAR*PhyIS_nb(ng)
+! End PM Edit
                 Epp=Vp/SQRT(Vp*Vp+fac1*fac1)
                 t_PPmax=Epp*fac1
 !
 !  Nutrient-limitation terms (Parker 1993 Ecol Mod., 66, 113-120).
 !
-                cff1=Bio(i,k,iNH4_)*K_NH4(ng)
-                cff2=Bio(i,k,iNO3_)*K_NO3(ng)
+!                 cff1=Bio(i,k,iNH4_)*K_NH4(ng)
+!                 cff2=Bio(i,k,iNO3_)*K_NO3(ng)
+! PM Edit
+                cff1=Bio(i,k,iNH4_)*K_NH4_nb(ng)
+                cff2=Bio(i,k,iNO3_)*K_NO3_nb(ng)
+! End PM Edit
                 inhNH4=1.0_r8/(1.0_r8+cff1)
                 L_NH4=cff1/(1.0_r8+cff1)
                 L_NO3=cff2*inhNH4/(1.0_r8+cff2)
@@ -756,8 +773,12 @@
      &               MAX(MinVal,Bio(i,k,iPO4_))
 #else
                 fac1=dtdays*t_PPmax
-                cff4=fac1*K_NO3(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
-                cff5=fac1*K_NH4(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
+!                 cff4=fac1*K_NO3(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
+!                 cff5=fac1*K_NH4(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
+! PM Edit
+                cff4=fac1*K_NO3_nb(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
+                cff5=fac1*K_NH4_nb(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
+! end PM Edit
 #endif
                 Bio(i,k,iNO3_)=Bio(i,k,iNO3_)/(1.0_r8+cff4)
                 Bio(i,k,iNH4_)=Bio(i,k,iNH4_)/(1.0_r8+cff5)
@@ -769,14 +790,17 @@
                 Bio(i,k,iPhyt)=Bio(i,k,iPhyt)+                          &
      &                         N_Flux_NewProd+N_Flux_RegProd
 !
-                Bio(i,k,iChlo)=Bio(i,k,iChlo)+                          &
-#ifdef PO4
-     &                         (dtdays*t_PPmax*t_PPmax*LMIN*LMIN*       &
-#else
-     &                         (dtdays*t_PPmax*t_PPmax*LTOT*LTOT*       &
-#endif
-     &                          Chl2C_m(ng)*Bio(i,k,iChlo))/            &
-     &                         (PhyIS(ng)*MAX(Chl2C,eps)*PAR+eps)
+!                 Bio(i,k,iChlo)=Bio(i,k,iChlo)+                          &
+! #ifdef PO4
+!      &                         (dtdays*t_PPmax*t_PPmax*LMIN*LMIN*       &
+! #else
+!      &                         (dtdays*t_PPmax*t_PPmax*LTOT*LTOT*       &
+! #endif
+!      &                          Chl2C_m(ng)*Bio(i,k,iChlo))/            &
+!      &                         (PhyIS(ng)*MAX(Chl2C,eps)*PAR+eps)
+! PM Edit
+                Bio(i,k,iChlo)=Bio(i,k,iPhyt)*2.5_r8
+! End PM Edit
 #ifdef DIAGNOSTICS_BIO
                 DiaBio3d(i,j,k,iPPro)=DiaBio3d(i,j,k,iPPro)+            &
 # ifdef WET_DRY
