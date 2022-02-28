@@ -912,15 +912,23 @@
 !  detritus. [Landry 1993 L and O 38:468-472]
 !-----------------------------------------------------------------------
 !
-          fac1=dtdays*ZooGR(ng)
-          cff2=dtdays*PhyMR(ng)
+!           fac1=dtdays*ZooGR(ng)
+!           cff2=dtdays*PhyMR(ng)
+! PM Edit
+          fac1=dtdays*ZooGR_nb(ng)
+          cff2=dtdays*PhyMR_nb(ng)
+! End PM Edit
           DO k=1,N(ng)
             DO i=Istr,Iend
 !
 ! Phytoplankton grazing by zooplankton.
 !
+!               cff1=fac1*Bio(i,k,iZoop)*Bio(i,k,iPhyt)/                  &
+!      &             (K_Phy(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
+! PM Edit
               cff1=fac1*Bio(i,k,iZoop)*Bio(i,k,iPhyt)/                  &
-     &             (K_Phy(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
+     &             (K_Phy_nb(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
+! end PM Edit
               cff3=1.0_r8/(1.0_r8+cff1)
               Bio(i,k,iPhyt)=cff3*Bio(i,k,iPhyt)
               Bio(i,k,iChlo)=cff3*Bio(i,k,iChlo)
@@ -928,12 +936,22 @@
 ! Phytoplankton assimilated to zooplankton and egested to small
 ! detritus.
 !
-              N_Flux_Assim=cff1*Bio(i,k,iPhyt)*ZooAE_N(ng)
-              N_Flux_Egest=Bio(i,k,iPhyt)*cff1*(1.0_r8-ZooAE_N(ng))
+!               N_Flux_Assim=cff1*Bio(i,k,iPhyt)*ZooAE_N(ng)
+!               N_Flux_Egest=Bio(i,k,iPhyt)*cff1*(1.0_r8-ZooAE_N(ng))
+!               Bio(i,k,iZoop)=Bio(i,k,iZoop)+                            &
+!      &                       N_Flux_Assim
+!               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)+                            &
+!      &                       N_Flux_Egest
+! PM Edit
+              N_Flux_Assim=cff1*Bio(i,k,iPhyt)*ZooAE_N_nb(ng)
+              N_Flux_Egest=Bio(i,k,iPhyt)*cff1*(1.0_r8-ZooAE_N_nb(ng))
               Bio(i,k,iZoop)=Bio(i,k,iZoop)+                            &
      &                       N_Flux_Assim
               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)+                            &
-     &                       N_Flux_Egest
+     &                       N_Flux_Egest*Zoo_Eg_nb(ng)
+              Bio(i,k,iNH4_)=Bio(i,k,iNH4_)+                            &
+     &                       N_Flux_Egest*(1.0_r8-ZooEg_N_nb(ng))
+! End PM Edit
 !
 ! Phytoplankton mortality (limited by a phytoplankton minimum).
 !
@@ -957,9 +975,15 @@
 !  related excretion (rate: ZooER).
 !-----------------------------------------------------------------------
 !
-          cff1=dtdays*ZooBM(ng)
-          fac2=dtdays*ZooMR(ng)
-          fac3=dtdays*ZooER(ng)
+!           cff1=dtdays*ZooBM(ng)
+!           fac2=dtdays*ZooMR(ng)
+!           fac3=dtdays*ZooER(ng)
+! PM Edit
+          cff1=dtdays*0.0_r8
+          fac2=dtdays*ZooMR_nb(ng)
+          fac3=dtdays*0.0_r8
+! End PM Edit
+! PM note: cff1, fac1, cff3, and N_Flux_Zexcret below = zero
           DO k=1,N(ng)
             DO i=Istr,Iend
               fac1=fac3*Bio(i,k,iPhyt)*Bio(i,k,iPhyt)/                  &
