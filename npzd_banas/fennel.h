@@ -443,7 +443,10 @@
       real(r8) :: fac1, fac2, fac3
       real(r8) :: cffL, cffR, cu, dltL, dltR
 
-      real(r8) :: total_N
+!       real(r8) :: total_N
+! PM Edit
+      real(r8) :: total_N, NO3loss
+! End PM Edit
 
 #ifdef DIAGNOSTICS_BIO
       real(r8) :: fiter
@@ -554,14 +557,24 @@
 !  Set vertical sinking velocity vector in the same order as the
 !  identification vector, IDSINK.
 !
-      Wbio(1)=wPhy(ng)                ! phytoplankton
-      Wbio(2)=wPhy(ng)                ! chlorophyll
-      Wbio(3)=wSDet(ng)               ! small Nitrogen-detritus
-      Wbio(4)=wLDet(ng)               ! large Nitrogen-detritus
+!       Wbio(1)=wPhy(ng)                ! phytoplankton
+!       Wbio(2)=wPhy(ng)                ! chlorophyll
+!       Wbio(3)=wSDet(ng)               ! small Nitrogen-detritus
+!       Wbio(4)=wLDet(ng)               ! large Nitrogen-detritus
+! #ifdef CARBON
+!       Wbio(5)=wSDet(ng)               ! small Carbon-detritus
+!       Wbio(6)=wLDet(ng)               ! large Carbon-detritus
+! #endif
+! PM Edit
+      Wbio(1)=0.0_r8                ! phytoplankton
+      Wbio(2)=0.0_r8                ! chlorophyll
+      Wbio(3)=wSDet_nb(ng)               ! small Nitrogen-detritus
+      Wbio(4)=wLDet_nb(ng)               ! large Nitrogen-detritus
 #ifdef CARBON
-      Wbio(5)=wSDet(ng)               ! small Carbon-detritus
-      Wbio(6)=wLDet(ng)               ! large Carbon-detritus
+      Wbio(5)=wSDet_nb(ng)               ! small Carbon-detritus
+      Wbio(6)=wLDet_nb(ng)               ! large Carbon-detritus
 #endif
+! End PM Edit
 !
 !  Compute inverse thickness to avoid repeated divisions.
 !
@@ -1032,25 +1045,43 @@
 !  Coagulation of phytoplankton and small detritus to large detritus.
 !-----------------------------------------------------------------------
 !
-          fac1=dtdays*CoagR(ng)
+!           fac1=dtdays*CoagR(ng)
+!           DO k=1,N(ng)
+!             DO i=Istr,Iend
+!               cff1=fac1*(Bio(i,k,iSDeN)+Bio(i,k,iPhyt))
+!               cff2=1.0_r8/(1.0_r8+cff1)
+!               Bio(i,k,iPhyt)=Bio(i,k,iPhyt)*cff2
+!               Bio(i,k,iChlo)=Bio(i,k,iChlo)*cff2
+!               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)*cff2
+!               N_Flux_CoagP=Bio(i,k,iPhyt)*cff1
+!               N_Flux_CoagD=Bio(i,k,iSDeN)*cff1
+!               Bio(i,k,iLDeN)=Bio(i,k,iLDeN)+                            &
+!      &                       N_Flux_CoagP+N_Flux_CoagD
+! #ifdef CARBON
+!               Bio(i,k,iSDeC)=Bio(i,k,iSDeC)-PhyCN(ng)*N_Flux_CoagD
+!               Bio(i,k,iLDeC)=Bio(i,k,iLDeC)+                            &
+!      &                       PhyCN(ng)*(N_Flux_CoagP+N_Flux_CoagD)
+! #endif
+!             END DO
+!           END DO
+! PM Edit (remove coagulation of phytoplankton)
+          fac1=dtdays*CoagR_nb(ng)
           DO k=1,N(ng)
             DO i=Istr,Iend
-              cff1=fac1*(Bio(i,k,iSDeN)+Bio(i,k,iPhyt))
+              cff1=fac1*(Bio(i,k,iSDeN))
               cff2=1.0_r8/(1.0_r8+cff1)
-              Bio(i,k,iPhyt)=Bio(i,k,iPhyt)*cff2
-              Bio(i,k,iChlo)=Bio(i,k,iChlo)*cff2
               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)*cff2
-              N_Flux_CoagP=Bio(i,k,iPhyt)*cff1
               N_Flux_CoagD=Bio(i,k,iSDeN)*cff1
               Bio(i,k,iLDeN)=Bio(i,k,iLDeN)+                            &
-     &                       N_Flux_CoagP+N_Flux_CoagD
+     &                       N_Flux_CoagD
 #ifdef CARBON
               Bio(i,k,iSDeC)=Bio(i,k,iSDeC)-PhyCN(ng)*N_Flux_CoagD
               Bio(i,k,iLDeC)=Bio(i,k,iLDeC)+                            &
-     &                       PhyCN(ng)*(N_Flux_CoagP+N_Flux_CoagD)
+     &                       PhyCN(ng)*(N_Flux_CoagD)
 #endif
             END DO
           END DO
+! End PM Edit
 !
 !-----------------------------------------------------------------------
 !  Detritus recycling to NH4, remineralization.
@@ -1061,10 +1092,16 @@
             DO i=Istr,Iend
               fac1=MAX(Bio(i,k,iOxyg)-6.0_r8,0.0_r8) ! O2 off max
               fac2=MAX(fac1/(3.0_r8+fac1),0.0_r8) ! MM for O2 dependence
-              cff1=dtdays*SDeRRN(ng)*fac2
+!               cff1=dtdays*SDeRRN(ng)*fac2
+!               cff2=1.0_r8/(1.0_r8+cff1)
+!               cff3=dtdays*LDeRRN(ng)*fac2
+!               cff4=1.0_r8/(1.0_r8+cff3)
+! PM Edit
+              cff1=dtdays*SDeRRN_nb(ng)*fac2
               cff2=1.0_r8/(1.0_r8+cff1)
-              cff3=dtdays*LDeRRN(ng)*fac2
+              cff3=dtdays*LDeRRN_nb(ng)*fac2
               cff4=1.0_r8/(1.0_r8+cff3)
+! End PM Edit
               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)*cff2
               Bio(i,k,iLDeN)=Bio(i,k,iLDeN)*cff4
               N_Flux_RemineS=Bio(i,k,iSDeN)*cff1
@@ -1100,10 +1137,17 @@
             END DO
           END DO
 #else
-          cff1=dtdays*SDeRRN(ng)
+!           cff1=dtdays*SDeRRN(ng)
+!           cff2=1.0_r8/(1.0_r8+cff1)
+!           cff3=dtdays*LDeRRN(ng)
+!           cff4=1.0_r8/(1.0_r8+cff3)
+! PM Edit
+          cff1=dtdays*SDeRRN_nb(ng)
           cff2=1.0_r8/(1.0_r8+cff1)
-          cff3=dtdays*LDeRRN(ng)
+          cff3=dtdays*LDeRRN_nb(ng)
           cff4=1.0_r8/(1.0_r8+cff3)
+! end PM Edit
+          
 # ifdef RIVER_DON
           cff7=dtdays*RDeRRN(ng)
           cff8=1.0_r8/(1.0_r8+cff7)
@@ -1528,8 +1572,33 @@
      &          (ibio.eq.iLDeN)) THEN
               DO i=Istr,Iend
                 cff1=FC(i,0)*Hz_inv(i,1)
+
+! >>> Start of DENITRIFICATION ifdef
 # ifdef DENITRIFICATION
-                Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1*cff2
+! The oringinal Fennel code had 25% of the benthic particle flux
+! turned into NH4 (cff2 = 0.25).
+!                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1*cff2
+! PM Edit
+                NO3loss=1.2_r8*dtdays*Hz_inv(i,1)
+#  ifdef OXYGEN
+            IF(FC(i,0).GT.Bio(i,1,iOxyg))THEN
+                ! ?? I don't understand how you can compare the benthic
+                ! particle flux to oxygen - different units I would think.
+                ! I assume this reflects denitrification (NO3 -> N2) for
+                ! low DO conditions.
+                Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-cff1
+            ELSE
+                ! Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*cff4
+                ! I assuming this is handled below.
+                Bio(i,1,iNO3_)=Bio(i,1,iNO3_)+cff1
+            ENDIF
+#  else
+                Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
+#  endif
+            IF (cff1.gt.NO3loss) THEN
+                Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-NO3loss
+            END IF
+! End PM Edit
 #  ifdef DIAGNOSTICS_BIO
                 DiaBio2d(i,j,iDNIT)=DiaBio2d(i,j,iDNIT)+                &
 #   ifdef WET_DRY
@@ -1544,6 +1613,7 @@
                 Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*cff3
 #  endif
 # else
+! >>> Below here is executed if DENITRIFICATION is NOT defined
                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
 #   ifdef PO4
                 Bio(i,1,iPO4_)=Bio(i,1,iPO4_)+cff1*R_P2N(ng)
@@ -1555,6 +1625,7 @@
                 Bio(i,1,iTAlk)=Bio(i,1,iTAlk)+cff1
 #  endif
 # endif
+! >>> End of DENITRIFICATION ifdef
               END DO
             END IF
 # ifdef CARBON
