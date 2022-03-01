@@ -1590,7 +1590,7 @@
             ELSE
                 ! Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*cff4
                 ! I assuming this is handled below.
-                Bio(i,1,iNO3_)=Bio(i,1,iNO3_)+cff1
+                Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
             ENDIF
 #  else
                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
