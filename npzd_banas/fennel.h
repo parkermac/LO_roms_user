@@ -1586,6 +1586,10 @@
                 ! particle flux to oxygen - different units I would think.
                 ! I assume this reflects denitrification (NO3 -> N2) for
                 ! low DO conditions.
+                ! I suspect that the idea is if the remineralization would
+                ! use up all the DO, then we assume it is nearly anoxic.
+                ! BUT in that case the FC term should be multiplied by
+                ! rOxNO3, and perhaps include both particle sizes.
                 Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-cff1
             ELSE
                 ! Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*cff4
