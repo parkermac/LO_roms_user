@@ -1097,6 +1097,9 @@
 !               cff3=dtdays*LDeRRN(ng)*fac2
 !               cff4=1.0_r8/(1.0_r8+cff3)
 ! PM Edit
+! NOTE: so far all I have done is change the rates, but there are more
+! differences with the Siedlecki code, mainly about water column
+! denitrification in low DO conditions.
               cff1=dtdays*SDeRRN_nb(ng)*fac2
               cff2=1.0_r8/(1.0_r8+cff1)
               cff3=dtdays*LDeRRN_nb(ng)*fac2
@@ -1575,31 +1578,34 @@
 
 ! >>> Start of DENITRIFICATION ifdef
 # ifdef DENITRIFICATION
-! The oringinal Fennel code had 25% of the benthic particle flux
-! turned into NH4 (cff2 = 0.25).
+! The original Fennel code had 25% of the benthic particle flux
+! turned into NH4 (cff2 = 0.25), meaning that 75% was denitrified.
 !                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1*cff2
 ! PM Edit
+! Here we are guided by results from benthic flux chamber experiments
+! on the Oregon Shelf, reported in Fuchsman et al. (2015), ECSS 163.
                 NO3loss=1.2_r8*dtdays*Hz_inv(i,1)
 #  ifdef OXYGEN
-            IF(FC(i,0).GT.Bio(i,1,iOxyg))THEN
-                ! ?? I don't understand how you can compare the benthic
-                ! particle flux to oxygen - different units I would think.
-                ! I assume this reflects denitrification (NO3 -> N2) for
-                ! low DO conditions.
-                ! I suspect that the idea is if the remineralization would
-                ! use up all the DO, then we assume it is nearly anoxic.
-                ! BUT in that case the FC term should be multiplied by
-                ! rOxNO3, and perhaps include both particle sizes.
+            IF((FC(i,0)*rOxNO3).gt.Bio(i,1,iOxyg))THEN
+                ! PM note: I added the rOxNO3 factor (138/16).
+                ! I think that the idea is if remineralization would
+                ! use up all the DO, then we assume it is nearly anoxic,
+                ! and so all of the particle flux goes into using up NO3.
                 Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-cff1
+                ! But doesn't it also makes NH4?
             ELSE
                 ! Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*cff4
-                ! I assuming this is handled below.
+                ! I assume the oxygen step is handled below, but note that
+                ! the version below uses cff3 instead of cff4.
                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
+                ! This step is just complete remineralization
             ENDIF
 #  else
                 Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
 #  endif
             IF (cff1.gt.NO3loss) THEN
+                ! If there is enough particle flux to support it, we
+                ! remove NO3 at a rate suggested by Fuchsman et al. (2015).
                 Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-NO3loss
             END IF
 ! End PM Edit
