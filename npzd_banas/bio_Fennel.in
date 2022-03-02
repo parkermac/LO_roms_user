@@ -34,7 +34,7 @@
 ! parameters are marked by "==" plural symbol after the KEYWORD.              !
 !                                                                             !
 ! NOTE: this version is edited by Parker MacCready starting in Feb. 2022      !
-! adding new versions of selected parameters with "_nb" appended that are     !
+! adding new versions of selected parameters that are                         !
 ! used in the edited fennel.h to approximately reproduce the                  !
 ! Banas/Siedlecki/Davis model. I also corrected typos in units in places.     !
 !                                                                             !
@@ -55,16 +55,15 @@
 
 ! Light attenuation due to seawater [1/m], {0.04d0}.
 
-       AttSW == 0.04d0
-       AttSW_nb == 0.05d0
-       AttFW_nb == 0.0065d0
+       !AttSW == 0.04d0
+       AttSW == 0.05d0
 
 ! Light attenuation by chlorophyll [(mg_Chl m-3)-1 m-1] (fixed typo in units)
 ! {0.02486d0}.
 ! Banas: 0.03/2.5 to get from Att for mean Phy to Att for mean Chl
 
-      AttChl == 0.02486d0
-      AttChl_nb == 0.012d0
+      !AttChl == 0.02486d0
+      AttChl == 0.012d0
 
 ! Fraction of shortwave radiation that is photosynthetically active
 ! (nondimensional), {0.43d0}.
@@ -90,14 +89,14 @@
 ! Inverse half-saturation for phytoplankton NO3 uptake [1/(millimole_N m-3)],
 ! {2.0d0}.
 
-       K_NO3 == 2.0d0
-       K_NO3_nb == 10.0d0
+       !K_NO3 == 2.0d0
+       K_NO3 == 10.0d0
 
 ! Inverse half-saturation for phytoplankton NH4 uptake [1/(millimole_N m-3)],
 ! {2.0d0}.
 
-       K_NH4 == 2.0d0
-       K_NH4_nb == 10.0d0
+       !K_NH4 == 2.0d0
+       K_NH4 == 10.0d0
 
 ! Inverse half-saturation for phytoplankton PO4 uptake [1/(millimole_P m-3)],
 ! {333.0d0}.
@@ -107,8 +106,8 @@
 ! Zooplankton half-saturation constant (squared) for ingestion
 ! [millimole_N m-3]^2, {1.0d0}.
 
-       K_Phy == 2.0d0
-       K_Phy_nb == 9.0d0
+       !K_Phy == 2.0d0
+       K_Phy == 9.0d0
 
 ! Maximum chlorophyll to carbon ratio [mg_Chl/mg_C], {0.0535d0}.
 
@@ -133,8 +132,8 @@
 ! Phytoplankton, initial slope of P-I curve [1/(Watts m-2 day)],
 ! {0.025d0}.
 
-       PhyIS == 0.025d0
-       PhyIS_nb == 0.07d0
+       !PhyIS == 0.025d0
+       PhyIS == 0.07d0
 
 ! Phytoplankton minimum threshold value [millimole_N/m3], {0.0d0}.
 
@@ -142,15 +141,13 @@
 
 ! Phytoplankton mortality rate [1/day], {0.072d0}.
 
-       PhyMR == 0.15d0
-       PhyMR_nb == 0.1d0
+       !PhyMR == 0.15d0
+       PhyMR == 0.1d0
 
 ! Zooplankton Nitrogen assimilation efficiency [nondimesnional], {0.75d0}.
-! ZooEg_N_nb is f_egest in the Banas refs. [dimensionless]
 
-     ZooAE_N == 0.75d0
-     ZooAE_N_nb == 0.3d0
-     ZooEg_N_nb == 0.5d0
+     !ZooAE_N == 0.75d0
+     ZooAE_N == 0.3d0
 
 ! Zooplankton Basal metabolism [1/day], {0.1d0}.
 
@@ -166,8 +163,8 @@
 
 ! Zooplankton maximum growth rate [1/day], {0.75d0}.
 
-       ZooGR == 0.6d0
-       ZooGR_nb == 4.8d0
+       !ZooGR == 0.6d0
+       ZooGR == 4.8d0
 
 ! Zooplankton minimum threshold value [millimole_N/m3], {0.0d0}.
 
@@ -176,33 +173,35 @@
 ! Zooplankton mortality rate [(mmol N m-3)-1 day-1] (fixed typo in units),
 ! {0.025d0}.
 
-       ZooMR == 0.025d0
-       ZooMR_nb == 2.0d0
+       !ZooMR == 0.025d0
+       ZooMR == 2.0d0
 
 ! Large detritus remineralization rate N-fraction [1/day], {0.01d0}.
 
-       LDeRRN == 0.01d0
-       LDeRRN_nb == 0.1d0
+       !LDeRRN == 0.01d0
+       LDeRRN == 0.1d0
 
 ! Large detritus remineralization rate C-fraction [1/day].
 
-       LDeRRC == 0.01d0
+       !LDeRRC == 0.01d0
+       LDeRRC == 0.1d0
 
 ! Coagulation rate: aggregation rate of SDeN + Phy ==> LDeN
 ! [(mmol N m-3)-1 day-1] (fixed typo in units), {0.005d0}.
-! CoagR_nb is just SDeN => LDeN
+! CoagR is just SDeN => LDeN
 
-       CoagR == 0.005d0
-       CoagR_nb == 0.05d0
+       !CoagR == 0.005d0
+       CoagR == 0.05d0
 
 ! Small detritus remineralization rate N-fraction [1/day], {0.03d0}.
 
-       SDeRRN == 0.03d0
-       SDeRRN_nb == 0.1d0
+       !SDeRRN == 0.03d0
+       SDeRRN == 0.1d0
 
 ! Small detritus remineralization rate C-fraction[1/day].
 
-       SDeRRC == 0.03d0
+       !SDeRRC == 0.03d0
+       SDeRRC == 0.1d0
 
 ! River detritus remineralization rate N-fraction [1/day], {0.03d0}.
 
@@ -219,14 +218,14 @@
 ! Vertical sinking velocity for large detritus [m/day],
 ! {1.0d0}.
 
-       wLDet == 1.0d0
-       wLDet_nb == 80.0d0
+       !wLDet == 1.0d0
+       wLDet == 80.0d0
 
 ! Vertical sinking velocity for small detritus [m/day],
 ! {0.1d0}.
 
-       wSDet == 0.1d0
-       wSDet_nb == 8.0d0
+       !wSDet == 0.1d0
+       wSDet == 8.0d0
 
 ! CO2 partial pressure in the air (parts per million by volume),
 ! {377.0d0}.

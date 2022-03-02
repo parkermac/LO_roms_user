@@ -568,11 +568,11 @@
 ! PM Edit
       Wbio(1)=0.0_r8                ! phytoplankton
       Wbio(2)=0.0_r8                ! chlorophyll
-      Wbio(3)=wSDet_nb(ng)               ! small Nitrogen-detritus
-      Wbio(4)=wLDet_nb(ng)               ! large Nitrogen-detritus
+      Wbio(3)=wSDet(ng)               ! small Nitrogen-detritus
+      Wbio(4)=wLDet(ng)               ! large Nitrogen-detritus
 #ifdef CARBON
-      Wbio(5)=wSDet_nb(ng)               ! small Carbon-detritus
-      Wbio(6)=wLDet_nb(ng)               ! large Carbon-detritus
+      Wbio(5)=wSDet(ng)               ! small Carbon-detritus
+      Wbio(6)=wLDet(ng)               ! large Carbon-detritus
 #endif
 ! End PM Edit
 !
@@ -725,9 +725,9 @@
 !      &               AttFac)*                                           &
 !      &               (z_w(i,j,k)-z_w(i,j,k-1))
 ! PM Edit
-                Att=(AttSW_nb(ng)+                                         &
-     &               AttChl_nb(ng)*Bio(i,k,iChlo)-                         &
-     &               AttFW_nb*(Bio(i,k,isalt)-32.0_r0))*                   &
+                Att=(AttSW(ng)+                                         &
+     &               AttChl(ng)*Bio(i,k,iChlo)-                         &
+     &               0.0065d_r8*(Bio(i,k,isalt)-32.0_r8))*                   &
      &               (z_w(i,j,k)-z_w(i,j,k-1))
 ! End PM Edit
                 ExpAtt=EXP(-Att)
@@ -736,12 +736,9 @@
 !
 !  Compute Chlorophyll-a phytoplankton ratio, [mg Chla / (mg C)].
 !
-!                 cff=PhyCN(ng)*12.0_r8
-!                 Chl2C=MIN(Bio(i,k,iChlo)/(Bio(i,k,iPhyt)*cff+eps),      &
-!      &                    Chl2C_m(ng))
-! PM Edit
-                Chl2C=2.5_r8
-! End PM Edit
+                cff=PhyCN(ng)*12.0_r8
+                Chl2C=MIN(Bio(i,k,iChlo)/(Bio(i,k,iPhyt)*cff+eps),      &
+     &                    Chl2C_m(ng))
 !
 !  Temperature-limited and light-limited growth rate (Eppley, R.W.,
 !  1972, Fishery Bulletin, 70: 1063-1085; here 0.59=ln(2)*0.851).
@@ -751,19 +748,15 @@
 !                 fac1=PAR*PhyIS(ng)
 ! PM Edit
                 Vp=1.7_r8
-                fac1=PAR*PhyIS_nb(ng)
+                fac1=PAR*PhyIS(ng)
 ! End PM Edit
                 Epp=Vp/SQRT(Vp*Vp+fac1*fac1)
                 t_PPmax=Epp*fac1
 !
 !  Nutrient-limitation terms (Parker 1993 Ecol Mod., 66, 113-120).
 !
-!                 cff1=Bio(i,k,iNH4_)*K_NH4(ng)
-!                 cff2=Bio(i,k,iNO3_)*K_NO3(ng)
-! PM Edit
-                cff1=Bio(i,k,iNH4_)*K_NH4_nb(ng)
-                cff2=Bio(i,k,iNO3_)*K_NO3_nb(ng)
-! End PM Edit
+                cff1=Bio(i,k,iNH4_)*K_NH4(ng)
+                cff2=Bio(i,k,iNO3_)*K_NO3(ng)
                 inhNH4=1.0_r8/(1.0_r8+cff1)
                 L_NH4=cff1/(1.0_r8+cff1)
                 L_NO3=cff2*inhNH4/(1.0_r8+cff2)
@@ -786,12 +779,8 @@
      &               MAX(MinVal,Bio(i,k,iPO4_))
 #else
                 fac1=dtdays*t_PPmax
-!                 cff4=fac1*K_NO3(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
-!                 cff5=fac1*K_NH4(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
-! PM Edit
-                cff4=fac1*K_NO3_nb(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
-                cff5=fac1*K_NH4_nb(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
-! end PM Edit
+                cff4=fac1*K_NO3(ng)*inhNH4/(1.0_r8+cff2)*Bio(i,k,iPhyt)
+                cff5=fac1*K_NH4(ng)/(1.0_r8+cff1)*Bio(i,k,iPhyt)
 #endif
                 Bio(i,k,iNO3_)=Bio(i,k,iNO3_)/(1.0_r8+cff4)
                 Bio(i,k,iNH4_)=Bio(i,k,iNH4_)/(1.0_r8+cff5)
@@ -925,23 +914,15 @@
 !  detritus. [Landry 1993 L and O 38:468-472]
 !-----------------------------------------------------------------------
 !
-!           fac1=dtdays*ZooGR(ng)
-!           cff2=dtdays*PhyMR(ng)
-! PM Edit
-          fac1=dtdays*ZooGR_nb(ng)
-          cff2=dtdays*PhyMR_nb(ng)
-! End PM Edit
+          fac1=dtdays*ZooGR(ng)
+          cff2=dtdays*PhyMR(ng)
           DO k=1,N(ng)
             DO i=Istr,Iend
 !
 ! Phytoplankton grazing by zooplankton.
 !
-!               cff1=fac1*Bio(i,k,iZoop)*Bio(i,k,iPhyt)/                  &
-!      &             (K_Phy(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
-! PM Edit
               cff1=fac1*Bio(i,k,iZoop)*Bio(i,k,iPhyt)/                  &
-     &             (K_Phy_nb(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
-! end PM Edit
+     &             (K_Phy(ng)+Bio(i,k,iPhyt)*Bio(i,k,iPhyt))
               cff3=1.0_r8/(1.0_r8+cff1)
               Bio(i,k,iPhyt)=cff3*Bio(i,k,iPhyt)
               Bio(i,k,iChlo)=cff3*Bio(i,k,iChlo)
@@ -956,14 +937,14 @@
 !               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)+                            &
 !      &                       N_Flux_Egest
 ! PM Edit
-              N_Flux_Assim=cff1*Bio(i,k,iPhyt)*ZooAE_N_nb(ng)
-              N_Flux_Egest=Bio(i,k,iPhyt)*cff1*(1.0_r8-ZooAE_N_nb(ng))
+              N_Flux_Assim=cff1*Bio(i,k,iPhyt)*ZooAE_N(ng)
+              N_Flux_Egest=Bio(i,k,iPhyt)*cff1*(1.0_r8-ZooAE_N(ng))
               Bio(i,k,iZoop)=Bio(i,k,iZoop)+                            &
      &                       N_Flux_Assim
               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)+                            &
-     &                       N_Flux_Egest*Zoo_Eg_nb(ng)
+     &                       N_Flux_Egest*0.5_r8
               Bio(i,k,iNH4_)=Bio(i,k,iNH4_)+                            &
-     &                       N_Flux_Egest*(1.0_r8-ZooEg_N_nb(ng))
+     &                       N_Flux_Egest*(1.0_r8-0.5_r8)
 ! End PM Edit
 !
 ! Phytoplankton mortality (limited by a phytoplankton minimum).
@@ -993,7 +974,7 @@
 !           fac3=dtdays*ZooER(ng)
 ! PM Edit
           cff1=dtdays*0.0_r8
-          fac2=dtdays*ZooMR_nb(ng)
+          fac2=dtdays*ZooMR(ng)
           fac3=dtdays*0.0_r8
 ! End PM Edit
 ! PM note: cff1, fac1, cff3, and N_Flux_Zexcret below = zero
@@ -1065,7 +1046,7 @@
 !             END DO
 !           END DO
 ! PM Edit (remove coagulation of phytoplankton)
-          fac1=dtdays*CoagR_nb(ng)
+          fac1=dtdays*CoagR(ng)
           DO k=1,N(ng)
             DO i=Istr,Iend
               cff1=fac1*(Bio(i,k,iSDeN))
@@ -1092,19 +1073,13 @@
             DO i=Istr,Iend
               fac1=MAX(Bio(i,k,iOxyg)-6.0_r8,0.0_r8) ! O2 off max
               fac2=MAX(fac1/(3.0_r8+fac1),0.0_r8) ! MM for O2 dependence
-!               cff1=dtdays*SDeRRN(ng)*fac2
-!               cff2=1.0_r8/(1.0_r8+cff1)
-!               cff3=dtdays*LDeRRN(ng)*fac2
-!               cff4=1.0_r8/(1.0_r8+cff3)
-! PM Edit
-! NOTE: so far all I have done is change the rates, but there are more
+              cff1=dtdays*SDeRRN(ng)*fac2
+              cff2=1.0_r8/(1.0_r8+cff1)
+              cff3=dtdays*LDeRRN(ng)*fac2
+              cff4=1.0_r8/(1.0_r8+cff3)
+! PM Edit: so far all I have done is change the rates, but there are more
 ! differences with the Siedlecki code, mainly about water column
 ! denitrification in low DO conditions.
-              cff1=dtdays*SDeRRN_nb(ng)*fac2
-              cff2=1.0_r8/(1.0_r8+cff1)
-              cff3=dtdays*LDeRRN_nb(ng)*fac2
-              cff4=1.0_r8/(1.0_r8+cff3)
-! End PM Edit
               Bio(i,k,iSDeN)=Bio(i,k,iSDeN)*cff2
               Bio(i,k,iLDeN)=Bio(i,k,iLDeN)*cff4
               N_Flux_RemineS=Bio(i,k,iSDeN)*cff1
@@ -1140,17 +1115,10 @@
             END DO
           END DO
 #else
-!           cff1=dtdays*SDeRRN(ng)
-!           cff2=1.0_r8/(1.0_r8+cff1)
-!           cff3=dtdays*LDeRRN(ng)
-!           cff4=1.0_r8/(1.0_r8+cff3)
-! PM Edit
-          cff1=dtdays*SDeRRN_nb(ng)
+          cff1=dtdays*SDeRRN(ng)
           cff2=1.0_r8/(1.0_r8+cff1)
-          cff3=dtdays*LDeRRN_nb(ng)
+          cff3=dtdays*LDeRRN(ng)
           cff4=1.0_r8/(1.0_r8+cff3)
-! end PM Edit
-          
 # ifdef RIVER_DON
           cff7=dtdays*RDeRRN(ng)
           cff8=1.0_r8/(1.0_r8+cff7)
