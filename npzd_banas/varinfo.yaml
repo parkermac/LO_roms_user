@@ -41,7 +41,7 @@
 #     field = field (source_units) * scale + add_offset
 #
 
-svn_repository: $URL: https://www.myroms.org/svn/src/trunk/ROMS/External/varinfo.yaml $
+#svn_repository: $URL: https://www.myroms.org/svn/src/trunk/ROMS/External/varinfo.yaml $
 
 convention:     CF 1.10
 
@@ -6928,7 +6928,7 @@ metadata:
 
   - variable:       increment                                        # Output
     standard_name:  data_assimilation_increment
-    long_name:      4D-Var increment: analysis minus background, dx_a = H(x_a) - H(x_b)
+    long_name:      4D-Var increment, analysis minus background, dx_a = H(x_a) - H(x_b)
     units:          state variable units                             # [state units]
     field:          4D-Var increment
     time:           datum
@@ -6939,7 +6939,7 @@ metadata:
 
   - variable:       innovation                                       # Output
     standard_name:  data_assimilation_innovation
-    long_name:      4D-Var innovation: observation minus background, d_b = y - H(x_b)
+    long_name:      4D-Var innovation, observation minus background, d_b = y - H(x_b)
     units:          state variable units                             # [state units]
     field:          4D-Var innovation
     time:           datum
@@ -6972,7 +6972,7 @@ metadata:
 
   - variable:       residual                                         # Output
     standard_name:  data_assimilation_residual
-    long_name:      4D-Var residual: observation minus analysis, d_a = y - H(x_b + dx_a)
+    long_name:      4D-Var residual, observation minus analysis, d_a = y - H(x_b + dx_a)
     units:          state variable units                             # [state units]
     field:          4D-Var residual
     time:           datum
