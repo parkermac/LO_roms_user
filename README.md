@@ -14,6 +14,8 @@ You can then do git pull anytime - it will ask for your ROMS password.
 
 test0
 
+This is the upwelling test case that come with ROMS.
+
 ---
 
 #### npzd_banas
