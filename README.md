@@ -2,32 +2,36 @@
 
 ### This repo is a place for user versions of ROMS code associated with the git repository LO_roms_source.
 
-NOTE: Currently these directions are sort of specific to Parker, but I'll make them more generic soon.
+These notes are written for klone, but should work with only minor changes for mox.
 
 ---
 
 (1) Put the ROMS source code on the machine you will be compiling on, e.g. klone:
 
-git clone https://pmaccc@www.myroms.org/git/src LO_roms_source
+```
+git clone https://[your ROMS username]@www.myroms.org/git/src LO_roms_source
 
+```
 Newer information about the ROMS repo and documentation seems to be going here: see https://www.myroms.org/doxygen/.
 
 Below we will refer to the directory LO_roms_source as (*)
 
 You can then do git pull anytime - it will ask for your ROMS password.
 
-NOTE: when I do git pull I get this warning:
+By issuing the command while in the directory on klone
 ```
-[pmacc@klone1 test0]$ git pull
-warning: Pulling without specifying how to reconcile divergent branches is
-discouraged. You can squelch this message by running one of the following
-commands sometime before your next pull:
+git config pull.ff only
+```
+it means you will always use fast-forward for reconciling branches. If you don't do this you get a warning message from klone. This seems to work with my usual one-way git workflow: edit on my mac => commit and push to cloud => then pull to klone.
 
-  git config pull.rebase false  # merge (the default strategy)
-  git config pull.rebase true   # rebase
-  git config pull.ff only       # fast-forward only
-```
-So I should figure out what these mean and then choose one.
+---
+
+(2) This directory, LO_roms_user, is a git repo that you clone to klone at the same level as LO, LO_roms_source, etc. It is a place for copies of ROMS code that I need to edit. There are a few categories:
+- The compiler instructions, copied from (*)/Compilers.
+- The files needed for making a specific executable, like test0, uu0k, etc., see below.
+- The custom bio code, which goes in npzd_banas. This has its own README.
+
+For all the edited code you can use diff to compare it to the original version in (*).
 
 ---
 
@@ -36,25 +40,38 @@ So I should figure out what these mean and then choose one.
 This is the upwelling test case that come with ROMS.  It is always the first thing you should try to run when moving to a new version of ROMS or a new machine.
 
 I have created a few files to run it on klone:
-- build_roms.sh is copied from (*)/ROMS/Bin/build_roms.sh and you can see the few edits I made by using diff.
-- upwelling.h
-- roms_upwelling.in
-- klone_batch0.sh
+- build_roms.sh from (*)/ROMS/Bin
+- upwelling.h from (*)/ROMS/Include
+- roms_upwelling.in from (*)/ROMS/External
+- klone_batch0.sh created from scratch
 
 In the directory test0 do:
 ```
 pmsrun
-./build_roms.sh
+./build_roms.sh < /dev/null > bld.log &
 logout
 ```
-This will spew several minutes of stuff to the screen and eventually result in the executable...
+This will take a few minutes and result in the executable romsM. It also makes a folder Build_roms full of intermediate files such as the .f90 that result from the preprocessing of the original .F files. You issue these three commands anytime you are compiling. The /dev/null input is to avoid having the process stopped by any keyboard input.  The large amount of standard output will end up in bld.log, and & just escapes you back to shell.
+
+pmsrun is an alias on klone, which appears as a line in my .bashcr
+```
+alias pmsrun='srun -p compute -A macc --pty bash -l'
+
+```
+The purpose of pmsrun is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.
+
+The build_roms.sh script orchestrated the actual compiling, like you may have done in the past with a makefile.
+
+When you logout after compiling it leaves you back on the klone head node.
 
 Then to run ROMS do:
 ```
 ./klone_batch.sh
 ```
 
-NOTE: when I ran it today, 2022.03.19, it generated these messages but appeared to run fine.
+If it ran correctly it will create a log file roms_log.txt and NetCDf output: roms_[his, dia, avg, rst].nc
+
+NOTE: when I ran it today, 2022.03.19, it generated these messages, but appeared to run fine.
 ```
 [LOG_CAT_SBGP] libnuma.so: cannot open shared object file: No such file or directory
 [LOG_CAT_SBGP] Failed to dlopen libnuma.so. Fallback to GROUP_BY_SOCKET manual.
@@ -62,9 +79,23 @@ NOTE: when I ran it today, 2022.03.19, it generated these messages but appeared 
 
 ---
 
+#### uu0k
+
+This is meant to exactly reproduce a physics-only version of the current LiveOcean forecast (cas6_v0_u0kb).
+
+NOTE: the naming of the folder is important.  We currently rely on a repeated first letter, "uu" in this case, so that LO/driver/driver_roms1.py knows this is using the LO_roms_user system and not the old LiveOcean_roms system.
+
+Because this is an LO-style run, it has more external gizmos than test0:
+- It is meant to be run by driver_roms1.py
+- It will look on apogee for forcing files, e.g. in LO_output/cas6_v0
+- It will look on klone for a history file from the previous day to start from (in this case we can copy one of the current cas6_v0_u0kb files)
+- It needs a dot_in instance such as cas6_v0_uu0k
+
+---
+
 #### npzd_banas
 
-This folder started as copies of the Fennel code in LO_roms_source/ROMS/Nonlinear/Biology. It also includes External/bio_Fennel.in. Then these files were edited to retain the Fennel code, including NH4 and Chl variables, but modifying the parameters in the .in and the equations in fennel.h to reproduce the Banas/Siedlecki/Davis model as closely as possible, while allowing a separate NH4 pool. All changes in the .h code are denoted with:
+This folder started as copies of the Fennel code in (*)/ROMS/Nonlinear/Biology. It also includes External/bio_Fennel.in. Then these files were edited to retain the Fennel code, including NH4 and Chl variables, but modifying the parameters in the .in and the equations in fennel.h to reproduce the Banas/Siedlecki/Davis model as closely as possible, while allowing a separate NH4 pool. All changes in the .h code are denoted with:
 ```
 ! PM Edit
 [new code]
