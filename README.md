@@ -91,6 +91,11 @@ Because this is an LO-style run, it has more external gizmos than test0:
 - It will look on klone for a history file from the previous day to start from (in this case we can copy one of the current cas6_v0_u0kb files)
 - It needs a dot_in instance such as cas6_v0_uu0k
 
+Then when all these are in place I run in LO/driver with a command like:
+```
+python3 driver_roms1.py -g cas6 -t v0 -x uu0k -r backfill -0 2021.11.10 -np 400 -N 40 --move_his False --short_roms True --get_forcing False < /dev/null > uu0k.log &
+```
+
 ---
 
 #### npzd_banas
