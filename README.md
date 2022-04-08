@@ -98,6 +98,12 @@ python3 driver_roms1.py -g cas6 -t v0 -x uu0k -r backfill -0 2021.11.10 -np 400 
 
 ---
 
+#### uu1k
+
+This is much like uu0k except it drops the cppdefs flags associated with atm forcing.  This makes it useful for analytical runs that don't have atm forcing.
+
+---
+
 #### npzd_banas
 
 This folder started as copies of the Fennel code in (*)/ROMS/Nonlinear/Biology. It also includes External/bio_Fennel.in. Then these files were edited to retain the Fennel code, including NH4 and Chl variables, but modifying the parameters in the .in and the equations in fennel.h to reproduce the Banas/Siedlecki/Davis model as closely as possible, while allowing a separate NH4 pool. All changes in the .h code are denoted with:
