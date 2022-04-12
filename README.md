@@ -102,6 +102,12 @@ python3 driver_roms1.py -g cas6 -t v0 -x uu0k -r backfill -0 2021.11.10 -np 400 
 
 This is much like uu0k except it drops the cppdefs flags associated with atm forcing.  This makes it useful for analytical runs that don't have atm forcing.
 
+I run this with `driver_roms2.py` because that is where I fixed a bug in the start_type=new logic.
+
+```
+python3 driver_roms2.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
+```
+
 ---
 
 #### npzd_banas

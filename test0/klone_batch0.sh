@@ -10,10 +10,10 @@
 #SBATCH --ntasks-per-node=4
 
 ## Walltime 
-#SBATCH --time=05:00:00
+#SBATCH --time=00:20:00
 
 ## Memory per node
-#SBATCH --mem=100G
+#SBATCH --mem=192G
 
 module purge
 module load intel/oneAPI
