@@ -1057,7 +1057,7 @@ PIO_I2C_Preq = 65                 ! Maximum pending I2C requests
      DAINAME == roms_dai.nc
      GSTNAME == roms_gst.nc
      RSTNAME == roms_rst.nc
-     HISNAME == /mmfs1/gscratch/macc/parker/LO_roms_user/test0/roms_his.nc
+     HISNAME == roms_his.nc
      QCKNAME == roms_qck.nc
      TLMNAME == roms_tlm.nc
      TLFNAME == roms_tlf.nc

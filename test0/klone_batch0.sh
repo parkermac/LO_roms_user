@@ -20,5 +20,6 @@ module load intel/oneAPI
 NFDIR=/gscratch/macc/local/netcdf-ifort/
 export LD_LIBRARY_PATH=${NFDIR}/lib:${LD_LIBRARY_PATH}
 
-mpirun -np 4 /mmfs1/gscratch/macc/parker/LO_roms_user/test0/romsM /mmfs1/gscratch/macc/parker/LO_roms_user/test0/roms_upwelling.in > /mmfs1/gscratch/macc/parker/LO_roms_user/test0/roms_log.txt
+## mpirun -np 4 /mmfs1/gscratch/macc/parker/LO_roms_user/test0/romsM /mmfs1/gscratch/macc/parker/LO_roms_user/test0/roms_upwelling.in > /mmfs1/gscratch/macc/parker/LO_roms_user/test0/roms_log.txt
+mpirun -np 4 romsM roms_upwelling.in > roms_log.txt
 
