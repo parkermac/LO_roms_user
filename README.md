@@ -107,15 +107,3 @@ I run this with `driver_roms2.py` because that is where I fixed a bug in the sta
 ```
 python3 driver_roms2.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
 ```
-
----
-
-#### npzd_banas
-
-This folder started as copies of the Fennel code in (*)/ROMS/Nonlinear/Biology. It also includes External/bio_Fennel.in. Then these files were edited to retain the Fennel code, including NH4 and Chl variables, but modifying the parameters in the .in and the equations in fennel.h to reproduce the Banas/Siedlecki/Davis model as closely as possible, while allowing a separate NH4 pool. All changes in the .h code are denoted with:
-```
-! PM Edit
-[new code]
-! End PM Edit
-```
-The first test of using this will be the uu0kb executable.
