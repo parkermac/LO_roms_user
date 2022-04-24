@@ -186,7 +186,7 @@ export         which_MPI=intel         # compile with mpiifort library
 #--------------------------------------------------------------------------
 
 #export            SHARED=on            # build libROMS.{so|dylib}
-# export            STATIC=on            # build libROMS.a
+ export            STATIC=on            # build libROMS.a
 
  export              EXEC=on            # build roms{G|M|O|S} executable
 
