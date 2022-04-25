@@ -196,7 +196,7 @@ export     MY_PROJECT_DIR=${PWD}
 # necessary libraries and paths to link into the ROMS executable.
 
  export       USE_NETCDF4=on            # compile with NetCDF-4 library
-#export   USE_PARALLEL_IO=on            # Parallel I/O with NetCDF-4/HDF5
+ export   USE_PARALLEL_IO=on            # Parallel I/O with NetCDF-4/HDF5
 #export           USE_PIO=on            # Parallel I/O with PIO library
 #export       USE_SCORPIO=on            # Parallel I/O with SCORPIO library
 

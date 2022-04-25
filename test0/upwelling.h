@@ -32,6 +32,8 @@
 #define DIAGNOSTICS_TS
 #define DIAGNOSTICS_UV
 
+#define PARALLEL_IO
+
 #define ANA_GRID
 #define ANA_INITIAL
 #define ANA_SMFLUX
