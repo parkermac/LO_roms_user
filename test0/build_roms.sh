@@ -196,14 +196,14 @@ export     MY_PROJECT_DIR=${PWD}
 # necessary libraries and paths to link into the ROMS executable.
 
  export       USE_NETCDF4=on            # compile with NetCDF-4 library
- export   USE_PARALLEL_IO=on            # Parallel I/O with NetCDF-4/HDF5
+#export   USE_PARALLEL_IO=on            # Parallel I/O with NetCDF-4/HDF5
 #export           USE_PIO=on            # Parallel I/O with PIO library
 #export       USE_SCORPIO=on            # Parallel I/O with SCORPIO library
 
 # If any of the coupling component use the HDF5 Fortran API for primary
 # I/O, we need to compile the main driver with the HDF5 library.
 
- export          USE_HDF5=on            # compile with HDF5 library
+#export          USE_HDF5=on            # compile with HDF5 library
 
 #--------------------------------------------------------------------------
 # If coupling Earth System Models (ESM), set the location of the ESM
