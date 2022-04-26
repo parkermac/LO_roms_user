@@ -8,7 +8,7 @@ These notes are written for klone, but should work with only minor changes for m
 
 Once you have gotten a klone account from our system administrator, you have two directories to be aware of.
 
-In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.  Here is what mine looks like:
+**First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.  Here is what mine looks like:
 ```
 # .bashrc
 
@@ -54,7 +54,7 @@ In particular you will need to copy and paste in the section with all the module
 
 The section of aliases are what I use to help move around quickly.  You might want similar aliases but be sure to substitute the name of your working directory for `parker`.
 
-The main place where you will install, compile, and run ROMS is your working directory: /gscratch/macc/[whatever].  We call this (+) below.
+**Second directory:** The main place where you will install, compile, and run ROMS is your working directory: /gscratch/macc/[whatever].  We call this (+) below.
 
 ---
 
@@ -94,7 +94,7 @@ Next, create (on your personal computer) a git repo called LO_roms_user, and pub
 
 Copy some of my code from https://github.com/parkermac/LO_roms_user into your LO_roms_user.  Specifically you want to get the folder "upwelling".
 
-This is the upwelling test case that come with ROMS.  It is always the first thing you should try to run when moving to a new version of ROMS or a new machine.
+This is the upwelling test case that comes with ROMS.  It is always the first thing you should try to run when moving to a new version of ROMS or a new machine.
 
 I have created a few files to run it on klone:
 - `build_roms.sh` modified from LO_roms_source/ROMS/Bin.  **You need to edit line 112 so that MY_ROOT_DIR is equal to your (+).**
