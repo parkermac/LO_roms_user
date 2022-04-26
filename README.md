@@ -162,7 +162,7 @@ NOTE: to run any of these, or your own versions, you have to make the LO_data fo
 
 #### uu0k
 
-This is meant to exactly reproduce a physics-only version of the current LiveOcean forecast (cas6_v0_u0kb), but updated to the newest ROMS, and using forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files.
+This is meant to exactly reproduce a physics-only version of the current LiveOcean forecast (cas6_v0_u0kb), but updated to the newest ROMS, and using forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "00" sequence).
 
 Because this is an LO-style run, it has more external gizmos than test0:
 - It is meant to be run by driver_roms2.py
@@ -180,7 +180,7 @@ Check out the comments in `driver_roms2.py` to see what all the commend line arg
 
 #### uu1k
 
-This is much like uu0k except it drops the cppdefs flags associated with atm forcing.  This makes it useful for analytical runs that don't have atm forcing.
+This is much like uu0k except it drops the cppdefs flags associated with atm forcing.  This makes it useful for analytical runs that don't have atm forcing.  Like uu1k, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
 
 Example command to run it:
 
