@@ -6,7 +6,45 @@ These notes are written for klone, but should work with only minor changes for m
 
 ---
 
-Once you have gotten a klone account from our system administrator, you have two directories to be aware of.
+#### Overview: klone and mox are UW supercomputers in the hyak system.
+
+Here are examples of aliases I have on my mac ~/.bash_profile (equivalent to ~/.bashrc on the linux machines) to quickly get to my machines
+```
+alias klo='ssh pmacc@klone1.hyak.uw.edu'
+alias mox1='ssh pmacc@mox1.hyak.uw.edu'
+alias mox2='ssh pmacc@mox2.hyak.uw.edu'
+alias pgee='ssh parker@perigee.ocean.washington.edu'
+alias agee='ssh parker@apogee.ocean.washington.edu'
+```
+Note: klone1 is the same as klone.  If you just ssh to mox you end up randomly at either mox1 or mox2, which are the same machine except that they keep separate crontabs. I always ssh to mox1 to avoid confusion.
+
+`/gscratch/macc` is our working directory on both mox and klone, and I have created my own directory inside that: parker, where the whole LO system lives.
+
+When you have a job running on klone you can check on it using:
+```
+squeue -A macc
+```
+or on mox:
+```
+squeue -p macc
+```
+---
+
+#### Getting resource info
+
+`hyakstorage` will give info about storage on klone.  Use `hyakstorage --help` to get more info on command options. Not yet working on mox.
+
+To check on our disk allocation on mox you can also look in the file `/gscratch/macc/usage_report.txt` although this will be phased out soon.
+
+`hyakalloc` will give info on the nodes we own.
+
+**mox**: we own 196 cores (7 nodes with 28 cores each), plus another 64 (2 nodes with 32 cores each).
+
+**klone**: we own 400 cores (10 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 10 TB total.
+
+---
+
+#### Once you have gotten a klone account from our system administrator, you have two directories to be aware of.
 
 **First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.  Here is what mine looks like:
 ```
@@ -58,7 +96,46 @@ The section of aliases are what I use to help move around quickly.  You might wa
 
 ---
 
-Working from (+), clone the LO, and LO_roms_source_alt repos:
+#### Set up ssh-keygen to apogee
+
+The LO ROMS driver system tries to minimize the files we store on hyak, because the ROMS output files could quickly exceed our quotas.  To do this the drivers (e.d. LO/driver/driver_roms2.py) uses scp to copy forcing files and ROMS output files to apogee or perigee where we have lots of storage.  Then the driver automatically deletes unneeded files on hyak.  To allow the driver to do this automatically you have to grant it access to your account on perigee or apogee, using the ssh-keygen steps described here.
+
+Log onto klone1 and do:
+```
+ssh-keygen
+```
+and hit return for most everything.  However, you may encounter a prompt like this:
+```
+Enter file in which to save the key (/mmfs1/home/pmacc/.ssh/id_rsa):
+/mmfs1/home/pmacc/.ssh/id_rsa already exists.
+Overwrite (y/n)?
+```
+Looking [HERE](https://www.hostdime.com/kb/hd/linux-server/the-guide-to-generating-and-uploading-ssh-keys), I found out that id_rsa is the default name that it looks for automatically.  You can name the key anything and then just refer to it when using ssh and etc. like:
+```
+ssh parker@apogee.ocean.washington.edu -i /path/to/ssh/key
+```
+
+In the interests of tidying up I will chose to **overwrite** in the above. When I did this it asked for a passphrase and I hit return (no passphrase).
+
+Then I did:
+```
+ssh-copy-id parker@apogee.ocean.washington.edu
+```
+(it asks for my apogee password)
+
+And now I can ssh and scp from klone to apogee without a password, and on apogee it had added a key with pmacc@klone1.hyak.local at the end to my ~/.ssh/authorized_keys.
+
+On klone there is now an entry in ~/.ssh/known_hosts for apogee.ocean.washington.edu.
+
+So, in summary: for going from klone1 to apogee it added to:
+- ~/.ssh/known_hosts on klone (boiler and mox1 are also there), and
+- ~/.ssh/authorized_keys on apogee
+
+Now I can run `ssh-copy-id` again for other computers, without having to do the `ssh-keygen` step.
+
+---
+
+#### Working from (+), clone the LO, and LO_roms_source_alt repos:
 ```
 git clone https://github.com/parkermac/LO.git
 ```
@@ -69,7 +146,7 @@ Also clone your own LO_user repo.
 
 ---
 
-Before you get the ROMS code repo you need to get a ROMS account.  See the first bullet link below.
+#### Before you get the ROMS code repo you need to get a ROMS account.  See the first bullet link below.
 
 Places for ROMS info:
 - https://www.myroms.org/ Main page.  Click the "Register" tab to get an account.
@@ -78,6 +155,8 @@ Places for ROMS info:
 - https://www.myroms.org/forum/index.php The ROMS Forum, where you can search for discussions of many issues, and post your own questions.  This is incredibly useful.  You will get speedy answers from the experts!
 
 ---
+
+#### Get the ROMS source code
 
 Then put the ROMS source code on klone, again working in (+).  Do this using svn (subversion, similar to git).  Just type this command (substituting in your ROMS username, no []).  This will create a folder LO_roms_source with all the ROMS code.
 ```
@@ -90,7 +169,7 @@ NOTE: the LO_roms_source_alt repo that you cloned above has versions of bits of 
 
 ---
 
-Next, create (on your personal computer) a git repo called LO_roms_user, and publish it to your account on GitHub.
+#### Next, create (on your personal computer) a git repo called LO_roms_user, and publish it to your account on GitHub.
 
 Copy some of my code from https://github.com/parkermac/LO_roms_user into your LO_roms_user.  Specifically you want to get the folder "upwelling".
 
@@ -106,7 +185,7 @@ After you have edited everything on your personal computer, push it to GitHub, a
 
 ---
 
-**Now you are ready to compile and run ROMS (in parallel) for the first time!**
+#### Now you are ready to compile and run ROMS (in parallel) for the first time!
 
 Working on klone **in the directory LO_roms_user/upwelling**, do these steps, waiting for each to finish, to compile ROMS:
 ```
@@ -150,6 +229,12 @@ If it ran correctly it will create a log file roms_log.txt and NetCDf output: ro
 
 ---
 
+#### Running things by cron
+
+These are mainly only used by the daily forecast. See LO/driver/crontabs for current versions.  These are discussed more in LO/README.md.
+
+---
+
 ## LO Compiler Configurations
 
 Below we list the current folders where we define LO-specific compiling choices.  The name of each folder refers to [ex_name] in the LO run naming system.  Before compiling, each contains only:
@@ -186,4 +271,39 @@ Example command to run it:
 
 ```
 python3 driver_roms2.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
+```
+
+---
+
+## OBSOLETE
+
+### These notes are only relevant to the old ROMS installation used in the LiveOcean (not LO) system
+
+#### From David Darr: klone requires only modest changes to Linux-ifort_mox.mk, renamed Linux-ifort_klone.mk (in LiveOcean_roms/LO_ROMS/Compilers).  The only difference actually is that the two instances of:
+```
+NC_CONFIG ?= nc-config
+```
+are now:
+```
+NC_CONFIG ?= nf-config
+```
+
+#### Steps to compile:
+
+On klone:
+
+```
+cd LiveOcean_roms/LO_ROMS
+srun -p compute -A macc --pty bash -l
+make clean
+make -f /gscratch/macc/parker/LiveOcean_roms/makefiles/[ex_name]/makefile
+```
+Then `logout` to get back to the usual shell.  You have to do this because the `srun` command logged you onto one of the compute nodes.
+
+On mox the steps are only slightly different. The `compute` in the srun command is `macc` on **mox**:
+```
+cd LiveOcean_roms/LO_ROMS
+srun -p macc -A macc --pty bash -l
+make clean
+make -f /gscratch/macc/parker/LiveOcean_roms/makefiles/[ex_name]/makefile
 ```
