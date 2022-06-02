@@ -219,7 +219,7 @@ logout
 ```
 to get off of the compute node and back to the head node.
 
-Then to run ROMS do:
+Then to run ROMS do (from the head node):
 ```
 ./klone_batch.sh
 ```
