@@ -52,13 +52,10 @@
 #  define CARBON
 #  define pCO2_RZ
 #  define TALK_NONCONSERV
-# define ANA_SPFLUX
-# define ANA_BPFLUX
-# define ANA_SRFLUX
+#  define ANA_SPFLUX
+#  define ANA_BPFLUX
 #endif
 
-#define ANA_SMFLUX
-#define ANA_STFLUX
 #define ANA_SSFLUX
 #define ANA_BTFLUX
 #define ANA_BSFLUX
@@ -69,28 +66,6 @@
 # define N2S2_HORAVG
 # define RI_SPLINES
 #endif
-
-/*
-#if defined BIO_FENNEL  || defined ECOSIM || \
-    defined NPZD_POWELL || defined NEMURO
-# define ANA_BIOLOGY
-# define ANA_SPFLUX
-# define ANA_BPFLUX
-# define ANA_SRFLUX
-#endif
-
-#if defined NEMURO
-# define HOLLING_GRAZING
-# undef  IVLEV_EXPLICIT
-#endif
-
-#ifdef BIO_FENNEL
-# define CARBON
-# define DENITRIFICATION
-# define BIO_SEDIMENT
-# define DIAGNOSTICS_BIO
-#endif
-*/
 
 #ifdef PERFECT_RESTART
 # undef  AVERAGES
