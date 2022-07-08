@@ -243,6 +243,8 @@ Below we list the current folders where we define LO-specific compiling choices.
 
 NOTE: to run any of these, or your own versions, you have to make the LO_data folder in (+) and use scp to get your grid folder from perigee or apogee.
 
+**NOTE: the ex_name can have numbers, but no underscores, and all letters MUST be lowercase.**
+
 ---
 
 #### uu0k
