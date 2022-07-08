@@ -277,6 +277,27 @@ python3 driver_roms2.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1
 
 ---
 
+#### uu0kb
+
+This is a major step in the ROMS update process.  It uses the near-latest ROMS and my edited versions of the fennel bio code, which I keep in LO_roms_source_alt/npzd_banas.  It needs the edited version of varinfo.yaml, which is in LO_roms_source_alt/varinfo because a few of the fennel variables were missing from the version that came with ROMS.
+
+In addition it uses new versions of the forcing made by ocn00 and etc. which I have put in cas6_v00.
+
+---
+
+#### uu0kbatt
+
+This is just like uu0kb but with a few lines in fennel.h edited to reproduce the light attenuation from "BSD as coded" which I discovered was different from "BSD as written in Davis etal (2014)".  BSD stands for Banas, Siedlecki and Davis.
+
+This will probably be obsolete soon because I will probably return fennel.h back to the version expected by uu0kb.
+
+Note: for an experiment like this you have to edit code in three repos:
+- LO/dot_in to make a new .in instance
+- LO_roms_source_alt if the bio source code is being edited
+- LO_roms_user to make the new ex_name instance
+
+---
+
 ## OBSOLETE
 
 ### These notes are only relevant to the old ROMS installation used in the LiveOcean (not LO) system
