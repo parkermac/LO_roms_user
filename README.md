@@ -221,7 +221,7 @@ to get off of the compute node and back to the head node.
 
 Then to run ROMS do (from the head node):
 ```
-./klone_batch.sh
+sbatch -p compute -A macc klone_batch.sh
 ```
 This will run the ROMS upwelling test case on 4 cores.  It should take a couple of minutes.  You can use the < > & things to not have to wait for it to finish.
 
