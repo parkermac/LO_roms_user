@@ -130,8 +130,8 @@ export     MY_PROJECT_DIR=${PWD}
 # ${MY_ROMS_SRC}/Compilers. If this is the case, you need to keep these
 # configurations files up-to-date.
 
- export         COMPILERS=${MY_ROMS_SRC}/Compilers
-#export         COMPILERS=${HOME}/Compilers/ROMS
+#export         COMPILERS=${MY_ROMS_SRC}/Compilers
+ export         COMPILERS=${MY_ROOT_DIR}/LO_roms_source_alt/Compilers
 
 #--------------------------------------------------------------------------
 # Set tunable CPP options.
@@ -199,7 +199,7 @@ export     MY_PROJECT_DIR=${PWD}
 
  export       USE_NETCDF4=on            # compile with NetCDF-4 library
 #export   USE_PARALLEL_IO=on            # Parallel I/O with NetCDF-4/HDF5
-#export           USE_PIO=on            # Parallel I/O with PIO library
+ export           USE_PIO=on            # Parallel I/O with PIO library
 #export       USE_SCORPIO=on            # Parallel I/O with SCORPIO library
 
 # If any of the coupling component use the HDF5 Fortran API for primary
