@@ -298,6 +298,18 @@ Note: for an experiment like this you have to edit code in three repos:
 
 ---
 
+#### uu0kbattopt
+
+Like uu0kbatt but with an additional term in the nutrient limitation to more closely match the BSD code.
+
+---
+
+#### up0kb
+
+Like uu0kb but this is the first test of the PI capability!
+
+---
+
 ## OBSOLETE
 
 ### These notes are only relevant to the old ROMS installation used in the LiveOcean (not LO) system
