@@ -33,14 +33,16 @@
 #define SOLAR_SOURCE
 #define BULK_FLUXES
 #define LONGWAVE_OUT
-#define DEFLATE
-#define HDF5
 #define RADIATION_2D
 #undef RAMP_TIDES
 #define SSH_TIDES
 #define UV_TIDES
 #define ADD_FSOBC
 #define ADD_M2OBC
+
+#undef DEFLATE
+#define HDF5
+#define PIO_LIB
 
 /* LiveOcean bio choices */
 #define BIO_FENNEL
