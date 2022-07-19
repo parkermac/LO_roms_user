@@ -249,19 +249,21 @@ NOTE: to run any of these, or your own versions, you have to make the LO_data fo
 
 #### uu0k
 
-This is meant to exactly reproduce a physics-only version of the current LiveOcean forecast (cas6_v0_u0kb), but updated to the newest ROMS, and using forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "00" sequence).
+This is meant to be a physics-only version of the new LiveOcean model, updated to the newest ROMS, and using forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "00" sequence).
+
+I am using it to rest out some changes to the physics, such as turning off TS_DIF2, and turning on EMINUSP (hence turning off ANA_SSFLUX).
 
 Because this is an LO-style run, it has more external gizmos than test0:
 - It is meant to be run by driver_roms2.py
-- It will look on apogee for forcing files in LO_output/cas6_v0
-- It will look on klone for a history file from the previous day to start from (in this case we can copy one of the current cas6_v0_u0kb files)
-- It needs a dot_in instance such as cas6_v0_uu0k
+- It will look on apogee for forcing files in LO_output/cas6_v00
+- It will look on klone for a history file from the previous day to start from (in this case we can copy one of the current cas6_v00_u0kb files)
+- It needs a dot_in instance such as cas6_v00_uu0k
 
 Then when all these are in place I run in LO/driver with a command like:
 ```
 python3 driver_roms2.py -g cas6 -t v0 -x uu0k -r backfill -0 2021.11.10 -np 40 -N 40 --move_his False --short_roms True --get_forcing False < /dev/null > uu0k.log &
 ```
-Check out the comments in `driver_roms2.py` to see what all the commend line arguments do.
+Check out the comments in `driver_roms2.py` to see what all the command line arguments do.
 
 ---
 
