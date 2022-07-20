@@ -41,7 +41,7 @@
 #define ADD_M2OBC
 
 #undef DEFLATE
-#define HDF5
+#undef HDF5
 #define PIO_LIB
 
 /* LiveOcean bio choices */
