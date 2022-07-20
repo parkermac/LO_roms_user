@@ -308,7 +308,13 @@ Like uu0kbatt but with an additional term in the nutrient limitation to more clo
 
 #### up0kb
 
-Like uu0kb but this is the first test of the PI capability!
+Like uu0kb but this is the first test of the PIO capability! RESULT: it did not work yet.
+
+---
+
+#### uu0krst
+
+Like uu0k but testing the use of PERFECT_RESTART.
 
 ---
 
