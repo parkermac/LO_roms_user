@@ -55,5 +55,5 @@
 # undef  DIAGNOSTICS_BIO
 # undef  DIAGNOSTICS_TS
 # undef  DIAGNOSTICS_UV
-# define OUT_DOUBLE
+# undef  OUT_DOUBLE
 #endif
