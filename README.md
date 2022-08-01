@@ -191,37 +191,37 @@ Working on klone **in the directory LO_roms_user/upwelling**, do these steps, wa
 ```
 srun -p compute -A macc --pty bash -l
 ```
+or on mox:
+```
+srun -p macc -A macc --pty bash -l
+```
 The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command.
 
 Then to do the actual compiling, do this:
 
 ```
-./build_roms.sh -j 10
+./build_roms.sh -j 10 < /dev/null > bld.log &
 ```
 
-This will take about six minutes, spew a lot of text to your screen, and result in the executable `romsM`. It also makes a folder `Build_roms` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files.
+This will take about six minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_roms` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit`.
 
 The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each node on klone had 40 cores.
 
-If you don't want all the screen output, do something like.
-```
-./build_roms.sh -j 10 > bld.log &
-```
-This redirects (>) the screen output to a file bld.log, and escapes to shell (&).
+On occasion I have a problem where keyboard input (like hitting Return because you are impatient) causes the job to stop.  That is why I added the `< /dev/null` thing to this command.
 
-On occasion I have things where keyboard input (like hitting Return because you are impatient) causes the job to stop.  If you find this happening you can add a `< /dev/null` thing like this:
-```
-./build_roms.sh -j 10 < /dev/null > bld.log &
-```
-After compiling is done, do:
+After compiling is done, DO NOT FORGET TO:
 ```
 logout
 ```
-to get off of the compute node and back to the head node. **I often forget to do this!** If I try to then run ROMS from the compute node it will appear to be working but not make any progress.
+to get off of the compute node and back to the head node. If I forget to do logout and instead try to run ROMS from the compute node it will appear to be working but not make any progress.
 
-Then to run ROMS do (from the head node):
+Then to run ROMS do (from the klone head node, meaning after you logged out of the compute node):
 ```
 sbatch -p compute -A macc klone_batch0.sh
+```
+or if you are working on mox the command is:
+```
+sbatch -p macc -A macc mox_batch0.sh
 ```
 This will run the ROMS upwelling test case on 4 cores.  It should take a couple of minutes.  You can use the < > & things to not have to wait for it to finish.
 
