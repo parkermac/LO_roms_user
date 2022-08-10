@@ -67,7 +67,10 @@ LODIR=/gscratch/macc/local
 #OMPI=${LODIR}/openmpi-ifort
 NFDIR=${LODIR}/netcdf-ifort
 NCDIR=${LODIR}//netcdf-icc
-export LD_LIBRARY_PATH=${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
+PIODIR=${LODIR}/pio
+PNDIR=${PNDIR}/pnetcdf
+export LD_LIBRARY_PATH=${PIODIR}/lib:${PNDIR}:${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
 export PATH=/gscratch/macc/local/netcdf-ifort/bin:$PATH
 export PATH=/gscratch/macc/local/netcdf-icc/bin:$PATH
 #export PATH=/gscratch/macc/local/openmpi-ifort/bin:$PATH
@@ -87,6 +90,7 @@ alias cdLrs='cd /gscratch/macc/parker/LO_roms_source'
 alias cdLra='cd /gscratch/macc/parker/LO_roms_source_alt'
 alias cdLod='cd /gscratch/macc/parker/LO_data'
 alias pmsrun='srun -p compute -A macc --pty bash -l'
+alias buildit='./build_roms.sh -j 10 < /dev/null > bld.log &'
 ```
 In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF and MPI libraries.
 
