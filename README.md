@@ -167,7 +167,7 @@ Then put the ROMS source code on klone, again working in (+).  Do this using svn
 svn checkout --username [your ROMS username] https://www.myroms.org/svn/src/trunk LO_roms_source
 
 ```
-You can bring the repo up to date anytime from inside LO_roms_source by typing `svn update`.  It will ask for your ROMS password.  You can also ask for a specific revision of the code, and many other things.  Type `svn help` to find out more.
+It will ask for your ROMS password. You can bring the repo up to date anytime from inside LO_roms_source by typing `svn up`.    You can also ask for a specific revision of the code, and many other things.  Type `svn help` to find out more.
 
 NOTE: the LO_roms_source_alt repo that you cloned above has versions of bits of the ROMS source code that we have edited, such as the modified biogeochemical code.  We keep these in a separate repo to they do not conflict with the original source code.  We are about to point our compiler to look in this directory for what it needs.
 
