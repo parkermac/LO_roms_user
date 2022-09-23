@@ -17,30 +17,30 @@
 #define UV_QDRAG
 
 #define DJ_GRADPS
-#define TS_DIF2
-#define  MIX_GEO_TS
 #define SALINITY
 #define SOLVE3D
-
-#undef AVERAGES
-#undef DIAGNOSTICS_TS
-#undef DIAGNOSTICS_UV
 
 /* LiveOcean specific choices */
 #define NONLIN_EOS
 #define MASKING
 #define SPHERICAL
+
 #define SOLAR_SOURCE
 #define BULK_FLUXES
 #define LONGWAVE_OUT
+#define EMINUSP
+
 #define DEFLATE
 #define HDF5
+
 #define RADIATION_2D
-#undef RAMP_TIDES
 #define SSH_TIDES
 #define UV_TIDES
 #define ADD_FSOBC
 #define ADD_M2OBC
+
+#define ANA_BTFLUX
+#define ANA_BSFLUX
 
 /* LiveOcean bio choices */
 #define BIO_FENNEL
@@ -51,14 +51,11 @@
 #  define OXYGEN
 #  define CARBON
 #  define pCO2_RZ
+#  define PCO2AIR_SECULAR
 #  define TALK_NONCONSERV
 #  define ANA_SPFLUX
 #  define ANA_BPFLUX
 #endif
-
-#define ANA_SSFLUX
-#define ANA_BTFLUX
-#define ANA_BSFLUX
 
 #define GLS_MIXING
 #if defined GLS_MIXING
@@ -67,10 +64,11 @@
 # define RI_SPLINES
 #endif
 
+#define PERFECT_RESTART
 #ifdef PERFECT_RESTART
 # undef  AVERAGES
 # undef  DIAGNOSTICS_BIO
 # undef  DIAGNOSTICS_TS
 # undef  DIAGNOSTICS_UV
-# define OUT_DOUBLE
+# undef  OUT_DOUBLE
 #endif

@@ -332,7 +332,7 @@ This is a first attempt to use all the improvements we have been testing above. 
 
 To do this I will:
 1. edit fennel.h to reflect BSD as written (no changes needed)
-2. create LO_roms_user/uu0mb by copying from uu0kbattopt, and incorporating perfect restart from uu0krst.
+2. create LO_roms_user/uu0mb by copying from uu0kbattopt, and incorporating many improvements like eminusp and perfect restart from uu0krst. Also define PCO2AIR_SECULAR.
 3. create LO/dot_in/cas6_v00_uu0mb
 4. maybe make a new roms driver in LO/driver to cleanly handle the perfect restart case
 
