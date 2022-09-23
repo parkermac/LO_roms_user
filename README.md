@@ -322,6 +322,24 @@ Like uu0k but testing the use of PERFECT_RESTART.
 
 ---
 
+#### uu0mb
+
+This is a first attempt to use all the improvements we have been testing above. It will have:
+- eminusp
+- correct att and opt in the bio code, the match BSD as written
+- better atm CO2
+- perfect restart
+
+To do this I will:
+1. edit fennel.h to reflect BSD as written (no changes needed)
+2. create LO_roms_user/uu0mb by copying from uu0kbattopt, and incorporating perfect restart from uu0krst.
+3. create LO/dot_in/cas6_v00_uu0mb
+4. maybe make a new roms driver in LO/driver to cleanly handle the perfect restart case
+
+NOTE: I ran "svn up" around 2022.09.21 on mox so the ROMS source there is up to date.
+
+---
+
 ## OBSOLETE
 
 ### These notes are only relevant to the old ROMS installation used in the LiveOcean (not LO) system
