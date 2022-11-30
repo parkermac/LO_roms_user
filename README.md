@@ -165,7 +165,6 @@ Places for ROMS info:
 Then put the ROMS source code on klone, again working in (+).  Do this using svn (subversion, similar to git).  Just type this command (substituting in your ROMS username, no []).  This will create a folder LO_roms_source with all the ROMS code.
 ```
 svn checkout --username [your ROMS username] https://www.myroms.org/svn/src/trunk LO_roms_source
-
 ```
 It will ask for your ROMS password. You can bring the repo up to date anytime from inside LO_roms_source by typing `svn up`.    You can also ask for a specific revision of the code, and many other things.  Type `svn help` to find out more.
 
@@ -235,7 +234,7 @@ If it ran correctly it will create a log file roms_log.txt and NetCDf output: ro
 
 #### Running things by cron
 
-These are mainly only used by the daily forecast. See LO/driver/crontabs for current versions.  These are discussed more in LO/README.md.
+These are only used by the daily forecast. See LO/driver/crontabs for current versions.  These are discussed more in LO/README.md.
 
 ---
 
@@ -251,93 +250,32 @@ NOTE: to run any of these, or your own versions, you have to make the LO_data fo
 
 ---
 
-#### uu0k
+#### uu0mb
 
-This is meant to be a physics-only version of the new LiveOcean model, updated to the newest ROMS, and using forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "00" sequence).
+This is a major step in the ROMS update process.
+- It uses the near-latest version of ROMS.
+- It is meant to be run using `driver_roms3.py`. Please look carefully at the top of that code to see all the command line arguments.
+- It uses the PERFECT_RESTART cpp flag. The leads to a smoother run and fewer blow-ups. It also means that it no longer writes an ocean_his_0001.nc file. This would be identical to the 0025 file from the previous day. This change is accounted for in `Lfun.get_fn_list()`.
+- It incorporates rain (EMINUSP).
+- It assumes that the forcing was created using driver_forcing3.py. This uses the new organizational structure where forcing is put in a [gridname] folder, not [gridname_tag] or [gtag].
+- See `LO/dot_in/cas6_v00_uu0mb` for an example dot_in that runs this.
 
-I am using it to rest out some changes to the physics, such as turning off TS_DIF2, and turning on EMINUSP (hence turning off ANA_SSFLUX).
-
-Because this is an LO-style run, it has more external gizmos than test0:
-- It is meant to be run by driver_roms2.py
-- It will look on apogee for forcing files in LO_output/cas6_v00
-- It will look on klone for a history file from the previous day to start from (in this case we can copy one of the current cas6_v00_u0kb files)
-- It needs a dot_in instance such as cas6_v00_uu0k
-
-Then when all these are in place I run in LO/driver with a command like:
-```
-python3 driver_roms2.py -g cas6 -t v0 -x uu0k -r backfill -0 2021.11.10 -np 40 -N 40 --move_his False --short_roms True --get_forcing False < /dev/null > uu0k.log &
-```
-Check out the comments in `driver_roms2.py` to see what all the command line arguments do.
+For the bio code:
+- It uses my edited version of the fennel bio code, which I keep in `LO_roms_source_alt/npzd_banas`.
+- We correct att and opt in the bio code, the match BSD as written.
+- Better atm CO2.
 
 ---
 
 #### uu1k
 
-This is much like uu0k except it drops the cppdefs flags associated with atm forcing.  This makes it useful for analytical runs that don't have atm forcing.  Like uu1k, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
+This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
 
 Example command to run it:
 
 ```
-python3 driver_roms2.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
+python3 driver_roms3.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
 ```
-
----
-
-#### uu0kb
-
-This is a major step in the ROMS update process.  It uses the near-latest ROMS and my edited versions of the fennel bio code, which I keep in LO_roms_source_alt/npzd_banas.  It needs the edited version of varinfo.yaml, which is in LO_roms_source_alt/varinfo because a few of the fennel variables were missing from the version that came with ROMS.
-
-In addition it uses new versions of the forcing made by ocn00 and etc. which I have put in cas6_v00.
-
----
-
-#### uu0kbatt
-
-This is just like uu0kb but with a few lines in fennel.h edited to reproduce the light attenuation from "BSD as coded" which I discovered was different from "BSD as written in Davis etal (2014)".  BSD stands for Banas, Siedlecki and Davis.
-
-This will probably be obsolete soon because I will probably return fennel.h back to the version expected by uu0kb.
-
-Note: for an experiment like this you have to edit code in three repos:
-- LO/dot_in to make a new .in instance
-- LO_roms_source_alt if the bio source code is being edited
-- LO_roms_user to make the new ex_name instance
-
----
-
-#### uu0kbattopt
-
-Like uu0kbatt but with an additional term in the nutrient limitation to more closely match the BSD code.
-
----
-
-#### up0kb
-
-Like uu0kb but this is the first test of the PIO capability! RESULT: it did not work yet.
-
----
-
-#### uu0krst
-
-Like uu0k but testing the use of PERFECT_RESTART.
-
----
-
-#### uu0mb
-
-This is a first attempt to use all the improvements we have been testing above. It will have:
-- eminusp
-- correct att and opt in the bio code, the match BSD as written
-- better atm CO2
-- perfect restart
-
-To do this I will:
-1. edit fennel.h to reflect BSD as written (no changes needed)
-2. create LO_roms_user/uu0mb by copying from uu0kbattopt, and incorporating many improvements like eminusp and perfect restart from uu0krst. Also define PCO2AIR_SECULAR.
-3. create LO/dot_in/cas6_v00_uu0mb
-4. maybe make a new roms driver in LO/driver to cleanly handle the perfect restart case
-
-NOTE: I ran "svn up" around 2022.09.21 on mox so the ROMS source there is up to date.
-
 ---
 
 ## OBSOLETE
