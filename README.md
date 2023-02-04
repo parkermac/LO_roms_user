@@ -273,6 +273,16 @@ This is just like uu0mb except without biology.
 
 ---
 
+#### n0mb
+
+"n" is for new!
+
+Like uu0mb but with the rOxN* ratios set back to the original Fennel values (instead of the larger Stock values). Also some changes to the benthic remin: (i) fixed a bug in the if statement to test if the aerobic flux would pull DO negative, and (ii) a simpler handling of denitrification from benthic flux, but ensuring it does not pull NO3 negative.
+
+I introduced a new name here because I had been recycling uu0mb to many times!
+
+---
+
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
