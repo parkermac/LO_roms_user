@@ -273,9 +273,7 @@ This is just like uu0mb except without biology.
 
 ---
 
-#### n0mb
-
-"n" is for new!
+#### x0mb
 
 Like uu0mb but with the rOxN* ratios set back to the original Fennel values (instead of the larger Stock values). Also some changes to the benthic remin: (i) fixed a bug in the if statement to test if the aerobic flux would pull DO negative, and (ii) a simpler handling of denitrification from benthic flux, but ensuring it does not pull NO3 negative.
 
