@@ -281,6 +281,17 @@ I introduced a new name here because I had been recycling uu0mb to many times!
 
 ---
 
+#### x1b
+
+Like x0mb but I edited the bio code to include the "optimum uptake" form of nutrient limitation for NH4. It was already in NO3. Created 2023.04.08.
+
+It is poor design to have the bio code in a separate folder. For example, if I now recompiled x0mb I would get code that reflected x1mb. **So I am going to put fennel.h in this folder and then set
+MY_ANALYTICAL_DIR=${MY_PROJECT_DIR} in `build_roms.sh`.**
+
+I am also dropping the "m" for mox. There unless I was running parallel forecasts on both mox and klone (as I was once) there is no reason for this.
+
+---
+
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
