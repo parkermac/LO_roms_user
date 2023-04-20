@@ -1567,7 +1567,7 @@
               cff1_an = MIN(Bio(i,1,iNO3_),cff1)
               Bio(i,1,iNO3_)=Bio(i,1,iNO3_)-cff1_an
             ELSE
-              cff_an=0.0_r8 ! default is no denit, but we override below
+              cff1_an=0.0_r8 ! default is no denit, but we override below
               Bio(i,1,iOxyg)=Bio(i,1,iOxyg)-cff1*rOxNH4
               Bio(i,1,iNH4_)=Bio(i,1,iNH4_)+cff1
               IF (cff1.gt.NO3loss) THEN
