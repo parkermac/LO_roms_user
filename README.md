@@ -292,6 +292,12 @@ I am also dropping the "m" for mox. There unless I was running parallel forecast
 
 ---
 
+#### x2b
+
+This starts from the fennel.h code in x1b and modifies it so the the benthic flux conforms more closely to Siedlecki et al. (2015) except with the necessary change that remineralization goes into NH4 instead of NO3. Denitrification still comes out of NO3. I also turn off the light limitation in Nitrification.
+
+---
+
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
