@@ -298,6 +298,12 @@ This starts from the fennel.h code in x1b and modifies it so the the benthic flu
 
 ---
 
+#### x3b
+
+An experiment using the fennel.h code from x2b but modifying light attenuation to be what it is in the current forecast. Note that the current forecast has bugs in this part of the code that make it different from Davis et al. (2014) as written.
+
+---
+
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
