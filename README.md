@@ -308,6 +308,14 @@ An experiment using the fennel.h code from x2b but modifying light attenuation t
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
 
+---
+
+#### xn0
+
+Designed to run a nested model. Omits tidal forcing. No biology. Otherwise based on x2b.
+
+---
+
 Example command to run it:
 
 ```
