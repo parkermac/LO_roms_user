@@ -33,6 +33,8 @@
 #define DEFLATE
 #define HDF5
 
+#define WET_DRY
+
 #undef RADIATION_2D
 #undef SSH_TIDES
 #undef UV_TIDES
