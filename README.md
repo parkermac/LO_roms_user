@@ -38,9 +38,9 @@ To check on our disk allocation on mox you can also look in the file `/gscratch/
 
 `hyakalloc` will give info on the nodes we own.
 
-**mox**: we own 196 cores (7 nodes with 28 cores each), plus another 64 (2 nodes with 32 cores each).
+**mox**: we own 148 cores (3 nodes with 28 cores each = 84, plus another 2 nodes with 32 cores each = 64). Unfortunately you cannot mix-and-match with these, you have to use nodes with the same number of cores on a given job.
 
-**klone**: we own 400 cores (10 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 10 TB total.
+**klone**: we own 600 cores (15 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 15 TB total.
 
 ---
 
@@ -62,7 +62,7 @@ then
 fi
 export PATH
 
-module load intel/oneAPI
+#module load intel/oneAPI
 LODIR=/gscratch/macc/local
 #OMPI=${LODIR}/openmpi-ifort
 NFDIR=${LODIR}/netcdf-ifort
@@ -91,6 +91,7 @@ alias cdLra='cd /gscratch/macc/parker/LO_roms_source_alt'
 alias cdLod='cd /gscratch/macc/parker/LO_data'
 alias pmsrun='srun -p compute -A macc --pty bash -l'
 alias buildit='./build_roms.sh -j 10 < /dev/null > bld.log &'
+alias mli='module load intel/oneAPI'
 ```
 In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF and MPI libraries.
 
@@ -200,19 +201,24 @@ srun -p macc -A macc --pty bash -l
 ```
 The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command.
 
-Then to do the actual compiling, do this:
+Then before you can do the compiling on klone (ignore this step on mox) you have to do:
+```
+module load intel/oneAPI
+```
+I have this aliased to `mli` in my .bashrc.
 
+Then to actually compile you do:
 ```
 ./build_roms.sh -j 10 < /dev/null > bld.log &
 ```
 
-This will take about six minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_roms` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit`.
+This will take about six minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_roms` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit` in my .bashrc.
 
 The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each node on klone had 40 cores.
 
 On occasion I have a problem where keyboard input (like hitting Return because you are impatient) causes the job to stop.  That is why I added the `< /dev/null` thing to this command.
 
-After compiling is done, DO NOT FORGET TO:
+#### >>> After compiling is done, DO NOT FORGET TO: <<<
 ```
 logout
 ```
