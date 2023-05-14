@@ -322,6 +322,12 @@ Designed to run a nested model. Omits tidal forcing. No biology. Otherwise based
 
 ---
 
+#### xn0b
+
+Designed to run a nested model. Omits tidal forcing. Has biology from x2b. Otherwise based on xn0.
+
+---
+
 Example command to run it:
 
 ```
