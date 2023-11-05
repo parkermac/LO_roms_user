@@ -310,6 +310,12 @@ An experiment using the fennel.h code from x2b but modifying light attenuation t
 
 ---
 
+#### x4b
+
+Like x2b but modified by Aurora Leeson (her meV00) to increase the light attenuation by a factor of three for the Salish Sea. In her tests she also used the full TRAPS forcing (WWTP bug fixed) and MPDATA for bio tracer advection in the dot_in. This should be the default code for the long hindcast and for whenever we update the forecast. 2023.11.05
+
+---
+
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
