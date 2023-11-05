@@ -109,7 +109,7 @@ export   ROMS_APPLICATION=$THISDIR
 # Set a local environmental variable to define the path to the directories
 # where all this project's files are kept.
 
-export        MY_ROOT_DIR=/gscratch/macc/auroral
+export        MY_ROOT_DIR=/gscratch/macc/parker
 export     MY_PROJECT_DIR=${PWD}
 
 # The path to the user's local current ROMS source code.
