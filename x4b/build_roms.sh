@@ -122,7 +122,7 @@ export     MY_PROJECT_DIR=${PWD}
 # machine. This script is designed to more easily allow for differing paths
 # to the code and inputs on differing machines.
 
- export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source
+ export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source_git
 
 # Set path of the directory containing makefile configuration (*.mk) files.
 # The user has the option to specify a customized version of these files
