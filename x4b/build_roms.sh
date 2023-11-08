@@ -133,7 +133,10 @@ done
 # determine the name of the ".h" header file with the application
 # CPP definitions.
 
-export   ROMS_APPLICATION=UPWELLING
+thisdir=${PWD##*/}
+THISDIR=$(echo "$thisdir" | tr '[:lower:]' '[:upper:]')
+export   ROMS_APPLICATION=$THISDIR
+# export   ROMS_APPLICATION=UPWELLING
 
 # Set a local environmental variable to define the path to the directories
 # where the ROMS source code is located (MY_ROOT_DIR), and this project's
@@ -142,11 +145,12 @@ export   ROMS_APPLICATION=UPWELLING
 # script describing the location from where the ROMS source code was cloned
 # or downloaded, it uses that value.
 
-if [ -n "${ROMS_ROOT_DIR:+1}" ]; then
-  export      MY_ROOT_DIR=${ROMS_ROOT_DIR}
-else
-  export      MY_ROOT_DIR=${HOME}/ocean/repository/git
-fi
+export        MY_ROOT_DIR=/gscratch/macc/parker
+# if [ -n "${ROMS_ROOT_DIR:+1}" ]; then
+#   export      MY_ROOT_DIR=${ROMS_ROOT_DIR}
+# else
+#   export      MY_ROOT_DIR=${HOME}/ocean/repository/git
+# fi
 
 export     MY_PROJECT_DIR=${PWD}
 
@@ -160,7 +164,8 @@ export     MY_PROJECT_DIR=${PWD}
 # This script allows for differing paths to the code and inputs on other
 # computers.
 
- export       MY_ROMS_SRC=${MY_ROOT_DIR}/roms
+#export       MY_ROMS_SRC=${MY_ROOT_DIR}/roms
+export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source_git
 
 # Set path of the directory containing makefile configuration (*.mk) files.
 # The user has the option to specify a customized version of these files
@@ -201,11 +206,11 @@ export     MY_PROJECT_DIR=${PWD}
 
  export           USE_MPI=on            # distributed-memory parallelism
  export        USE_MPIF90=on            # compile with mpif90 script
-#export         which_MPI=intel         # compile with mpiifort library
+ export         which_MPI=intel         # compile with mpiifort library
 #export         which_MPI=mpich         # compile with MPICH library
 #export         which_MPI=mpich2        # compile with MPICH2 library
 #export         which_MPI=mvapich2      # compile with MVAPICH2 library
- export         which_MPI=openmpi       # compile with OpenMPI library
+#export         which_MPI=openmpi       # compile with OpenMPI library
 
 #export        USE_OpenMP=on            # shared-memory parallelism
 
