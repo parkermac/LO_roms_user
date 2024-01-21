@@ -189,10 +189,10 @@ Copy some of my code from https://github.com/parkermac/LO_roms_user into your LO
 This is the upwelling test case that comes with ROMS.  It is always the first thing you should try to run when moving to a new version of ROMS or a new machine.
 
 I have created a few files to run it on klone:
-- `build_roms.sh` modified from LO_roms_source_git/ROMS/Bin.  **You need to edit line 112 so that MY_ROOT_DIR is equal to your (+).**
-- `upwelling.h` modified from LO_roms_source_git/ROMS/Include.  No need to edit.
-- `roms_upwelling.in` modified from LO_roms_source_git/ROMS/External.  **You will need to edit line 77 so that the path to varinfo.yaml points to (+).**
-- `klone_batch0.sh` created from scratch.  **You will need to edit line 23 so that RUN_DIR points to (+).**
+- `build_roms.sh` modified from LO_roms_source_git/ROMS/Bin.  **You need to edit line 152 so that MY_ROOT_DIR is equal to your (+).**
+- `upwelling.h` copied from LO_roms_source_git/ROMS/Include.  No need to edit.
+- `roms_upwelling.in` modified from LO_roms_source_git/ROMS/External.  **You will need to edit line 78 so that the path to varinfo.yaml points to (+).**
+- `klone_batch0.sh` created from scratch.  **You will need to edit line 24 so that RUN_DIR points to (+).**
 
 After you have edited everything on your personal computer, push it to GitHub, and clone it to (+) on klone.
 
