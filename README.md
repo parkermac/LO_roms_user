@@ -249,7 +249,7 @@ If it ran correctly it will create a log file roms_log.txt and NetCDf output: ro
 
 #### Running things by cron
 
-These are only used by the daily forecast. See LO/driver/crontabs for current versions.  These are discussed more in LO/README.md.
+These are mainly used by the daily forecast but can also be helpful for checking on long hindcasts and sending you an email. See LO/driver/crontabs for my current versions.  These are discussed more in LO/README.md.
 
 ---
 
@@ -264,6 +264,16 @@ NOTE: to run any of these, or your own versions, you have to make the LO_data fo
 **NOTE: the ex_name can have numbers, but no underscores, and all letters MUST be lowercase.**
 
 ---
+
+## CURRENT
+
+#### x4b
+
+Like x2b but modified by Aurora Leeson (her meV00) to increase the light attenuation by a factor of three for the Salish Sea. In her tests she also used the full TRAPS forcing (WWTP bug fixed) and MPDATA for bio tracer advection in the dot_in. This should be the default code for the long hindcast and for whenever we update the forecast. 2023.11.05
+
+---
+
+## OBSOLTE BUT RECENT
 
 #### uu0mb
 
@@ -319,12 +329,6 @@ An experiment using the fennel.h code from x2b but modifying light attenuation t
 
 ---
 
-#### x4b
-
-Like x2b but modified by Aurora Leeson (her meV00) to increase the light attenuation by a factor of three for the Salish Sea. In her tests she also used the full TRAPS forcing (WWTP bug fixed) and MPDATA for bio tracer advection in the dot_in. This should be the default code for the long hindcast and for whenever we update the forecast. 2023.11.05
-
----
-
 #### uu1k
 
 This is much like uu0mb except it drops the cppdefs flags associated with atm forcing and biology. This makes it useful for analytical runs that don't have atm forcing. Note carefully the ANA flags used in the cpp file. Like uu0mb, it makes use of forcing files that use the new varinfo.yaml to automate the naming of things in the NetCDF forcing files (the "A0" sequence).
@@ -350,7 +354,7 @@ python3 driver_roms3.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1
 ```
 ---
 
-## OBSOLETE
+## OBSOLETE AND VERY OLD
 
 ### These notes are only relevant to the old ROMS installation used in the LiveOcean (not LO) system
 
