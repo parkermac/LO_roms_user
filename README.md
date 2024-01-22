@@ -56,7 +56,9 @@ To check on our disk allocation on mox you can also look in the file `/gscratch/
 
 #### Once you have gotten a klone account from our system administrator, you have two directories to be aware of.
 
-**First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.  Here is what mine looks like:
+**First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.
+
+Here is my .bashrc on klone:
 
 ```
 # .bashrc
@@ -102,9 +104,12 @@ alias pmsrun='srun -p compute -A macc --pty bash -l'
 alias buildit='./build_roms.sh -j 10 < /dev/null > bld.log &'
 alias mli='module load intel/oneAPI'
 ```
+
 The section of aliases are what I use to help move around quickly.  You might want similar aliases but be sure to substitute the name of your working directory for "parker".
 
 In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF and MPI libraries.
+
+Note: I need to clean this up by getting rid of obsolete export calls, and setting the base working directory as a variable.
 
 **Second directory:** The main place where you will install, compile, and run ROMS is your working directory:
 
@@ -255,9 +260,10 @@ These are mainly used by the daily forecast but can also be helpful for checking
 
 ## LO Compiler Configurations
 
-Below we list the current folders where we define LO-specific compiling choices.  The name of each folder refers to [ex_name] in the LO run naming system.  Before compiling, each contains only:
+Below we list the current folders where we define LO-specific compiling choices.  The name of each folder refers to [ex_name] in the LO run naming system.  Before compiling, each contains:
 - `build_roms.sh` Which can be copied directly from your `upwelling` folder, without need to edit.
 - `[ex_name].h` This has configuration specific compiler flags.  You can explore the full range of choices and their meanings in `LO_roms_source/ROMS/External/cppdefs.h`.
+- `fennel.h` if this is a run with biology.
 
 NOTE: to run any of these, or your own versions, you have to make the LO_data folder in (+) and use scp to get your grid folder from perigee or apogee.
 
