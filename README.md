@@ -285,7 +285,9 @@ Meant for an analytical run. Basically identical to x4b but with the atmospheric
 
 ---
 
-## OBSOLTE BUT RECENT
+## OBSOLETE BUT RECENT
+
+Mostly I call these _obsolete_ becasue they use the somewhat older ROMS we had from svn, and they rely on varinfo.yaml in LO_roms_source_alt. But some of them are being used for the current daily forecast, specifically x2b and xn0b.
 
 #### uu0mb
 
@@ -357,13 +359,6 @@ Designed to run a nested model. Omits tidal forcing. No biology. Otherwise based
 
 Designed to run a nested model. Omits tidal forcing. Has biology from x2b. Otherwise based on xn0.
 
----
-
-Example command to run it:
-
-```
-python3 driver_roms3.py -g ae0 -t v0 -x uu1k -r backfill -s new -0 2020.01.01 -1 2020.01.02 -np 40 -N 40 < /dev/null > ae.log &
-```
 ---
 
 ## OBSOLETE AND VERY OLD
