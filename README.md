@@ -279,6 +279,12 @@ Like x2b but modified by Aurora Leeson (her meV00) to increase the light attenua
 
 ---
 
+#### xn0b
+
+Like x4b but without tides, for nested runs. NOTE: this should be updated to use the latest fennel.h which has different parameters in the Salish Sea.
+
+---
+
 #### xa0
 
 Meant for an analytical run. Basically identical to x4b but with the atmospheric forcing set to zero, and biology turned off. This replaces uu1k which did the same thing previously.
