@@ -273,6 +273,12 @@ Like x4b but without tides, for nested runs.
 
 ---
 
+#### x4
+
+Like x4b but without biology, for testing physics changes like tidal forcing.
+
+---
+
 #### xa0
 
 Meant for an analytical run. Basically identical to x4b but with the atmospheric forcing set to zero, and biology turned off. This replaces uu1k which did the same thing previously.
