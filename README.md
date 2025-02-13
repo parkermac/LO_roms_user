@@ -279,6 +279,12 @@ Like x4b but without biology, for testing physics changes like tidal forcing.
 
 ---
 
+#### x4tf
+
+Like x4 but with the tidal tractive force turned on.
+
+---
+
 #### xa0
 
 Meant for an analytical run. Basically identical to x4b but with the atmospheric forcing set to zero, and biology turned off. This replaces uu1k which did the same thing previously.
