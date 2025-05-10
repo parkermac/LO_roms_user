@@ -273,6 +273,12 @@ Like x4b but without tides, for nested runs.
 
 ---
 
+#### x4a
+
+Like x4b but no biology, no perfect restart, but defining AVERAGES. This is for the new experiment with GLORYS forcing (May 2025) but could be used for any physics-only experiment where we want to run fast.
+
+---
+
 #### x4
 
 Like x4b but without biology, for testing physics changes like tidal forcing.
