@@ -33,6 +33,8 @@
 #define DEFLATE
 #define HDF5
 
+# define AVERAGES
+
 #define WET_DRY
 
 #define RADIATION_2D
@@ -45,7 +47,7 @@
 #define ANA_BSFLUX
 
 /* LiveOcean bio choices */
-#define BIO_FENNEL
+#undef BIO_FENNEL
 #ifdef BIO_FENNEL
 #  define BIO_SEDIMENT
 #  define DENITRIFICATION
@@ -66,7 +68,7 @@
 # define RI_SPLINES
 #endif
 
-#define PERFECT_RESTART
+#undef PERFECT_RESTART
 #ifdef PERFECT_RESTART
 # undef  AVERAGES
 # undef  DIAGNOSTICS_BIO
