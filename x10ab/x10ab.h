@@ -15,7 +15,6 @@
 #define UV_ADV
 #define UV_COR
 #define UV_QDRAG
-
 #define DJ_GRADPS
 #define SALINITY
 #define SOLVE3D
@@ -24,17 +23,13 @@
 #define NONLIN_EOS
 #define MASKING
 #define SPHERICAL
-
 #define SOLAR_SOURCE
 #define BULK_FLUXES
 #define LONGWAVE_OUT
 #define EMINUSP
-
 #define DEFLATE
 #define HDF5
-
 #define AVERAGES
-
 #define WET_DRY
 
 #define RADIATION_2D
@@ -59,6 +54,9 @@
 #  define TALK_NONCONSERV
 #  define ANA_SPFLUX
 #  define ANA_BPFLUX
+#  define INCREASE_ATTSW  /*jx*/
+#  undef INCREASE_NO3LOSS /*jx*/
+#  define BURY           /*jx*/
 #endif
 
 #define GLS_MIXING
