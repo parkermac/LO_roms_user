@@ -433,8 +433,9 @@
       real(r8), parameter :: D7 = 0.06_r8
 #endif
 
-      real(r8) :: Att, AttFac, ExpAtt, Itop, PAR, AttSW_region
-      real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
+real(r8) :: Att, AttFac, ExpAtt, Itop, PAR  !, AttSW_region
+real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
+
 #ifdef PO4
       real(r8), parameter :: MinVal = 1.0e-6_r8
 
@@ -499,6 +500,18 @@
       real(r8), dimension(IminS:ImaxS,N(ng)) :: bL
       real(r8), dimension(IminS:ImaxS,N(ng)) :: bR
       real(r8), dimension(IminS:ImaxS,N(ng)) :: qc
+
+!jx 
+#ifdef INCREASE_ATTSW
+      real(r8), dimension(LBi:UBi,LBj:UBj) :: AttSW_region
+#endif
+#ifdef INCREASE_NO3LOSS
+      real(r8), dimension(LBi:UBi,LBj:UBj) :: NO3loss_region
+#endif
+#ifdef BURY
+      real(r8), dimension(LBi:UBi,LBj:UBj) :: bury_region
+#endif
+!jx
 
 #include "set_bounds.h"
 #ifdef DIAGNOSTICS_BIO
@@ -581,6 +594,60 @@
       Wbio(6)=wLDet(ng)               ! large Carbon-detritus
 #endif
 ! End PM Edit
+
+! jx
+! assign values for AttSW_region, NO3loss_region, and bury_region in the Salish Sea
+    DO i=Istr,Iend
+      DO j=Jstr,Jend
+        IF ((lonr(i,j).gt.-123.89_r8).and.(latr(i,j).lt.50.29_r8).and.(latr(i,j).gt.47.02_r8)) THEN
+#ifdef INCREASE_ATTSW
+            AttSW_region(i,j) = AttSW(ng)*3.0_r8
+#endif
+#ifdef INCREASE_NO3LOSS
+            NO3loss_region(i,j) = 2.4_r8
+#endif
+#ifdef BURY
+            bury_region(i,j) = 0.5_r8
+#endif
+        ELSE IF ((lonr(i,j).gt.-125.31_r8).and.(lonr(i,j).lt.-123.89_r8).and.(latr(i,j).lt.51.02_r8).and.(latr(i,j).gt.49.13_r8)) THEN
+#ifdef INCREASE_ATTSW
+            AttSW_region(i,j) = AttSW(ng)*3.0_r8
+#endif
+#ifdef INCREASE_NO3LOSS
+            NO3loss_region(i,j) = 2.4_r8
+#endif
+#ifdef BURY
+            bury_region(i,j) = 0.5_r8
+#endif
+        ELSE  !------outside the Salish Sea
+#ifdef INCREASE_ATTSW
+            AttSW_region(i,j) = AttSW(ng)
+#endif
+#ifdef INCREASE_NO3LOSS
+            NO3loss_region(i,j) = 1.2_r8
+#endif
+#ifdef BURY
+            bury_region(i,j) = 0.0_r8
+#endif
+        END IF
+
+!#ifdef DEBUG_SALISH
+!        IF (i.EQ.408.0_r8) THEN
+!           IF (j.EQ.1108.0_r8) THEN
+!              print *, 'AttSW_region', AttSW_region(i,j)
+!              print *, 'NO3loss_region', NO3loss_region(i,j)
+!              print *, 'bury_region', bury_region(i,j)
+!              print *, 'i, j', i, j
+!              print *, 'lonr, latr', lonr(i,j), latr(i,j)
+!           !  print *, 'indices ', Istr, Iend, Jstr, Jend, LBi, UBi, LBj, UBj, IminS, ImaxS, JminS, JmaxS
+!           END IF
+!        END IF
+!#endif
+
+     END DO
+    END DO
+!jx
+
 !
 !  Compute inverse thickness to avoid repeated divisions.
 !
@@ -711,15 +778,15 @@
             PAR=PARsur(i)
             AttFac=0.0_r8
       
-! AL edit (2023.08.14) to make AttSW larger in Salish Sea              
-            IF ((lonr(i,j).gt.-123.89_r8).and.(latr(i,j).lt.50.29_r8).and.(latr(i,j).gt.47.02_r8)) THEN
-              AttSW_region = AttSW(ng)*3.0_r8
-            ELSE IF ((lonr(i,j).gt.-125.31_r8).and.(lonr(i,j).lt.-123.89_r8).and.(latr(i,j).lt.51.02_r8).and.(latr(i,j).gt.49.13_r8)) THEN 
-              AttSW_region = AttSW(ng)*3.0_r8
-            ELSE
-              AttSW_region = AttSW(ng)
-            END IF
-! end AL edit
+!!jx AL edit (2023.08.14) to make AttSW larger in Salish Sea
+!jx            IF ((lonr(i,j).gt.-123.89_r8).and.(latr(i,j).lt.50.29_r8).and.(latr(i,j).gt.47.02_r8)) THEN
+!jx              AttSW_region = AttSW(ng)*3.0_r8
+!jx            ELSE IF ((lonr(i,j).gt.-125.31_r8).and.(lonr(i,j).lt.-123.89_r8).and.(latr(i,j).lt.51.02_r8).and.(latr(i,j).gt.49.13_r8)) THEN
+!jx              AttSW_region = AttSW(ng)*3.0_r8
+!jx            ELSE
+!jx              AttSW_region = AttSW(ng)
+!jx            END IF
+!!jx end AL edit
 
             IF (PARsur(i).gt.0.0_r8) THEN
               DO k=N(ng),1,-1
@@ -736,11 +803,20 @@
 ! AL edit
 ! This version uses AttSW_region which allows the Salish Sea to have
 ! a different AttSW than the coast.
-                Att=(AttSW_region+                                      &
+
+! jx
+#ifdef INCREASE_ATTSW
+                Att=(AttSW_region(i,j)+                                 &
      &               AttChl(ng)*Bio(i,k,iChlo)-                         &
      &               0.0065_r8*(Bio(i,k,isalt)-32.0_r8))*               &
      &               (z_w(i,j,k)-z_w(i,j,k-1))
-! end AL edit
+#else
+                Att=(AttSW(ng)+                                         &
+     &               AttChl(ng)*Bio(i,k,iChlo)-                         &
+     &               0.0065_r8*(Bio(i,k,isalt)-32.0_r8))*               &
+     &               (z_w(i,j,k)-z_w(i,j,k-1))
+#endif
+!jx
 
 ! PM Edit
 ! This version replicates the attenuation as written in Davis et al. (2014)
@@ -1581,8 +1657,19 @@
      &          (ibio.eq.iSDeN).or.                                     &
      &          (ibio.eq.iLDeN)) THEN
               DO i=Istr,Iend
+!jx
+#ifdef BURY
+                cff1=FC(i,0)*Hz_inv(i,1)*(1-bury_region(i,j))
+#else
                 cff1=FC(i,0)*Hz_inv(i,1)
+#endif
+                                  
+#ifdef INCREASE_NO3LOSS
+                NO3loss=NO3loss_region(i,j)*dtdays*Hz_inv(i,1)
+#else
                 NO3loss=1.2_r8*dtdays*Hz_inv(i,1)
+#endif
+!jx
 
 ! >>> Start of DENITRIFICATION ifdef
 # ifdef DENITRIFICATION
@@ -1649,12 +1736,17 @@
 # ifdef CARBON
             IF ((ibio.eq.iSDeC).or.                                     &
      &          (ibio.eq.iLDeC))THEN
-              DO i=Istr,Iend
+#ifdef BURY
+                cff1=FC(i,0)*Hz_inv(i,1)*(1-bury_region(i,j))
+#else
                 cff1=FC(i,0)*Hz_inv(i,1)
+#endif                                 
+              DO i=Istr,Iend
+              ! cff1=FC(i,0)*Hz_inv(i,1) !jx20250419
                 Bio(i,1,iTIC_)=Bio(i,1,iTIC_)+cff1
               END DO
             END IF
-            IF (ibio.eq.iPhyt)THEN
+            IF (ibio.eq.iPhyt)THEN  ! our iPhyt doesn't sink, so no bury is needed here (?) jx
               DO i=Istr,Iend
                 cff1=FC(i,0)*Hz_inv(i,1)
                 Bio(i,1,iTIC_)=Bio(i,1,iTIC_)+cff1*PhyCN(ng)
