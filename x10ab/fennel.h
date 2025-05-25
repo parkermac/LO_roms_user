@@ -1736,17 +1736,16 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
 # ifdef CARBON
             IF ((ibio.eq.iSDeC).or.                                     &
      &          (ibio.eq.iLDeC))THEN
+              DO i=Istr,Iend
 #ifdef BURY
                 cff1=FC(i,0)*Hz_inv(i,1)*(1-bury_region(i,j))
 #else
                 cff1=FC(i,0)*Hz_inv(i,1)
 #endif                                 
-              DO i=Istr,Iend
-              ! cff1=FC(i,0)*Hz_inv(i,1) !jx20250419
                 Bio(i,1,iTIC_)=Bio(i,1,iTIC_)+cff1
               END DO
             END IF
-            IF (ibio.eq.iPhyt)THEN  ! our iPhyt doesn't sink, so no bury is needed here (?) jx
+            IF (ibio.eq.iPhyt)THEN
               DO i=Istr,Iend
                 cff1=FC(i,0)*Hz_inv(i,1)
                 Bio(i,1,iTIC_)=Bio(i,1,iTIC_)+cff1*PhyCN(ng)
