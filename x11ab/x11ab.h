@@ -31,6 +31,7 @@
 #define HDF5
 #define AVERAGES
 #define WET_DRY
+#define OMEGA_IMPLICIT
 
 #define RADIATION_2D
 #define SSH_TIDES

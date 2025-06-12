@@ -267,7 +267,7 @@ The default code used for the long hindcast and daily forecast cas7_t0_x4b. The 
 
 #### x10ab
 
-Like x4b but with 50% burial of organic particulate N and C in the Salish Sea. It also saves averages. It is designed to run only saving two history files per day and an average file.
+Like x4b but with 50% burial of organic particulate N and C in the Salish Sea. It also saves averages. It is designed to run only saving two history files per day and an average file. No PERFECT_RESTART.
 
 #### x11ab
 
