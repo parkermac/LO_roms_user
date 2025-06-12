@@ -684,6 +684,15 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
             END DO
           END DO
         END DO
+#ifdef CARBON
+        DO k=1,N(ng)
+          DO i=Istr,Iend
+            Bio_old(i,k,iTIC_)=MIN(Bio_old(i,k,iTIC_),3000.0_r8)
+            Bio_old(i,k,iTIC_)=MAX(Bio_old(i,k,iTIC_),400.0_r8)
+            Bio(i,k,iTIC_)=Bio_old(i,k,iTIC_)
+          END DO
+        END DO
+#endif
 !
 !  Extract potential temperature and salinity.
 !
@@ -1772,7 +1781,15 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
 !  (J. Wilkin and H. Arango, Apr 27, 2012)
 !-----------------------------------------------------------------------
 !
-        DO itrc=1,NBT
+#ifdef CARBON
+        DO k=1,N(ng)
+          DO i=Istr,Iend
+            Bio(i,k,iTIC_)=MIN(Bio(i,k,iTIC_),3000.0_r8)
+            Bio(i,k,iTIC_)=MAX(Bio(i,k,iTIC_),400.0_r8)
+          END DO
+        END DO
+#endif
+DO itrc=1,NBT
           ibio=idbio(itrc)
           DO k=1,N(ng)
             DO i=Istr,Iend
