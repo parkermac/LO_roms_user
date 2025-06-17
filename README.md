@@ -271,7 +271,11 @@ Like x4b but with 50% burial of organic particulate N and C in the Salish Sea. I
 
 #### x11ab
 
-Like x11ab but with updated ROMS version (as of 2025.06.12) and compiled using the -b develop branch, and defining OMEGA_IMPLICIT. This should have the Harcourt turbulence improvements as the default advection scheme (I am a little fuzzy on the details here). I also created a new build_roms.sh, to keep it up to date with the one in the ROMS repo.
+Like x10ab but with updated ROMS version (4.3, as of 2025.06.12) and compiled using the -b develop branch, and defining OMEGA_IMPLICIT. This should have the Harcourt turbulence improvements as the default advection scheme (I am a little fuzzy on the details here). I also created a new build_roms.sh, to keep it up to date with the one in the ROMS repo.
+
+#### x11b
+
+Like x11ab but undefining averages. Intended for hourly saves.
 
 ---
 
