@@ -29,7 +29,7 @@
 #define EMINUSP
 #define DEFLATE
 #define HDF5
-#define AVERAGES
+#undef AVERAGES
 #define WET_DRY
 #define OMEGA_IMPLICIT
 
