@@ -301,23 +301,27 @@ Naming conventions: There are not formal naming conventions, but I typically sta
 
 ## CURRENT
 
-#### x4b
+#### x11b
 
-The default code used for the long hindcast and daily forecast cas7_t0_x4b. The fennel.h code has lines to increase the light attenuation by a factor of three for the Salish Sea. It allows for vertical point sources (like wastewater treatment plants) which requires a more recent ROMS repo (~January 2024). It uses MPDATA for bio tracer advection in the dot_in.
-
-#### x10ab
-
-Like x4b but with 50% burial of organic particulate N and C in the Salish Sea. It also saves averages. It is designed to run only saving two history files per day and an average file. No PERFECT_RESTART.
+This is the current primary forecast executable, as of 6/22/2025. It is like x10ab but with updated ROMS version (4.3, as of 2025.06.12) and compiled using the -b develop branch (probably not needed if you did git pull recently in LO_roms_source_git), and defining OMEGA_IMPLICIT. This has the Harcourt turbulence improvements as the default advection scheme. I also created a new build_roms.sh, to keep it up to date with the one in the ROMS repo.
 
 #### x11ab
 
-Like x10ab but with updated ROMS version (4.3, as of 2025.06.12) and compiled using the -b develop branch, and defining OMEGA_IMPLICIT. This should have the Harcourt turbulence improvements as the default advection scheme (I am a little fuzzy on the details here). I also created a new build_roms.sh, to keep it up to date with the one in the ROMS repo.
+Like x11ab but defining averages. Intended for daily saves.
 
-#### x11b
+#### xn11b
 
-Like x11ab but undefining averages. Intended for hourly saves.
+Like x11b but without tides. Intended for nested runs.
 
 ---
+
+#### x10ab
+
+Like x4b but with 50% burial of organic particulate N and C in the Salish Sea. It also saves averages. It is designed to run only saving two history files per day and an average file. No PERFECT_RESTART. This was a big step in the development leading from x4b to x11b. It uses new flags in the .h to turn on and off the bgc edits that apply only to the Salish Sea.
+
+#### x4b
+
+The old default code used for the long hindcast and daily forecast cas7_t0_x4b. The fennel.h code has lines to increase the light attenuation by a factor of three for the Salish Sea. It allows for vertical point sources (like wastewater treatment plants) which requires a more recent ROMS repo (~January 2024). It uses MPDATA for bio tracer advection in the dot_in.
 
 #### xn4b
 
