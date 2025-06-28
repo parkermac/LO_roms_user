@@ -243,7 +243,7 @@ Working on klone **in the directory LO_roms_user/upwelling**, do these steps, wa
 ```
 srun -p compute -A macc --pty bash -l
 ```
-The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command. I also have `pmsrun2` to use "-p cpu-g2", the next-generation nodes. Don't use these, they are reserved for the daily forecast system!
+The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command. I also have `pmsrun2` to use "-p cpu-g2", the next-generation nodes. Don't use these without checking with Parker; some are reserved for the daily forecast system!
 
 Then before you can do the compiling on klone you have to do:
 ```
@@ -256,9 +256,9 @@ Then to actually compile you do:
 ./build_roms.sh -j 10 < /dev/null > bld.log &
 ```
 
-This will take about six minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_romsM` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit` in my .bashrc.
+This will take about ten minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_romsM` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit` in my .bashrc.
 
-The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each node on klone had 40 cores.
+The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each node on klone had 40 cores (or 32 if we were using the cpu-g2 partition).
 
 On occasion I have a problem where keyboard input (like hitting Return because you are impatient) causes the job to stop.  That is why I added the `< /dev/null` thing to this command.
 
