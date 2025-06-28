@@ -6,7 +6,7 @@ These notes are written for klone.
 
 ---
 
-#### Overview: klone is a UW supercomputer in the hyak system.
+#### Overview: klone is a UW supercomputer in the hyak system. It is what we use for all our ROMS simulations.
 
 Here are examples of aliases I have on my mac ~/.bash_profile (equivalent to ~/.bashrc on the linux machines) to quickly get to my machines
 ```
@@ -20,13 +20,29 @@ Note: klone1 is the same as klone.
 
 #### Tools to control jobs running on klone
 
-`/gscratch/macc` is our working directory on klone because on hyak we are the "macc" group. I have created my own directory inside that: "parker", where all my code for running ROMS is stored.
+There is excellent documentation of the UW hyak system, for example starting here:
+
+https://hyak.uw.edu/docs/compute/start-here
+
+I encourage yo to explore the tabs on the left of that page to answer any questions you have.
+
+`/gscratch/macc` is our working directory on klone because on hyak we are the "macc" group. I have created my own directory inside that: "parker", where all my code for running ROMS is stored. TO DO: How do I create directories for new members of our group?
+
+Here are a few useful commands.
 
 When you have a job running on klone you can check on it using:
 ```
 squeue -A macc
 ```
-If you want to stap a running job, find the job ID (the number to the left in the squeue listing) and issue the command:
+-A refers to the account (macc in our case). We also have resources in "coenv".
+
+You could also use other command line arguments to get specific info:
+
+-p [compute, cgu-g2, ckpt-g2] for different "partitions" which is a fancy word meaning which type of computer is your job running on.
+
+-u [a UW NetID] to see info on the job(s) for a specific user
+
+If you want to stop a running job, find the job ID (the number to the left in the squeue listing) and issue the command:
 ```
 scancel [job ID]
 ```
@@ -38,11 +54,17 @@ Since your job will typically have been launched by a python driver you will als
 
 `hyakstorage` will give info about storage on klone.  Use `hyakstorage --help` to get more info on command options.
 
-`hyakalloc` will give info on the nodes we own.
+`hyakalloc` will give info on the nodes we have priority access to.
 
-**klone -p compute**: These are the original klone nodes. We own 600 cores (15 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 15 TB total. The "-p compute" refers to the flag+value you use when comopiling or running ROMS.
+More specifics about nodes we can use:
 
-**klone -p cpu-g2**: These are the new klone nodes. We own 160 cores (5 "slices" with 32 cores each). Each node consists of 6 slices, so we bought 5/6 of a node. The advantage of running on the these slices is that it is easier for the scheduler to allocate resources because they are all on one node. They are also faster. Currently these are all reserved for the daily forecast system.
+**-A macc -p compute**: These are the original klone nodes. We own 600 cores (15 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 15 TB total.
+
+**-A macc -p cpu-g2**: These are the new klone nodes. We own 480 cores (15 "slices" with 32 cores each). Each node consists of 6 slices, so we bought 5/6 of a node. The advantage of running on the these slices is that it is easier for the scheduler to allocate resources because they are all on one node. They are also faster. Currently 5 slices are reserved for the daily forecast system.
+
+**-A coenv -p cpu-g2**: We own 320 cores (10 slices with 32 cores each). This is in a separate account because of the history of how they were purchased.
+
+**-p ckpt-g2**: These are cpu-g2 nodes that are available to anyone in the UW system, no -A account needed. They have proven to be useful even for long, large runs.
 
 ---
 
@@ -50,7 +72,7 @@ Since your job will typically have been launched by a python driver you will als
 
 **First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.
 
-Here is my .bashrc on klone:
+Here is my .bashrc on klone as of 6/28/2025:
 
 ```
 # .bashrc
@@ -71,7 +93,7 @@ export PATH
 LODIR=/gscratch/macc/local
 #OMPI=${LODIR}/openmpi-ifort
 NFDIR=${LODIR}/netcdf-ifort
-NCDIR=${LODIR}//netcdf-icc
+NCDIR=${LODIR}/netcdf-icc
 PIODIR=${LODIR}/pio
 PNDIR=${PNDIR}/pnetcdf
 export LD_LIBRARY_PATH=${PIODIR}/lib:${PNDIR}:${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
@@ -84,6 +106,7 @@ export PATH=/gscratch/macc/local/netcdf-icc/bin:$PATH
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
+LOd=/gscratch/macc/parker/LO/driver
 alias cdpm='cd /gscratch/macc/parker'
 alias cdLo='cd /gscratch/macc/parker/LO'
 alias cdLu='cd /gscratch/macc/parker/LO_user'
@@ -92,18 +115,35 @@ alias cdLor='cd /gscratch/macc/parker/LO_roms'
 alias cdLru='cd /gscratch/macc/parker/LO_roms_user'
 alias cdLrs='cd /gscratch/macc/parker/LO_roms_source_git'
 alias cdLod='cd /gscratch/macc/parker/LO_data'
-# these aliases are used for compiling
 alias pmsrun='srun -p compute -A macc --pty bash -l'
 alias pmsrun2='srun -p cpu-g2 -A macc --pty bash -l'
-alias mli='module load intel/oneAPI'
 alias buildit='./build_roms.sh -j 10 < /dev/null > bld.log &'
+alias buildit_dev='./build_roms.sh -j 10 -b develop < /dev/null > bld.log &'
+alias mli='module load intel/oneAPI'
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/gscratch/macc/parker/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/gscratch/macc/parker/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/gscratch/macc/parker/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/gscratch/macc/parker/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 ```
 
 The section of aliases are what I use to help move around quickly.  You might want similar aliases but be sure to substitute the name of your working directory for "parker".
 
 In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF and MPI libraries.
 
-Note: I need to clean this up by getting rid of obsolete export calls, and setting the base working directory as a variable.
+The conda part was added automatically when I set up a python environment on klone. At this point, however you DO NOT need to create a new python environment on klone. The one that is already there is enough to do all our model runs.
+
+TO DO: I need to clean this up by getting rid of obsolete export calls, and setting the base working directory as a variable.
 
 **Second directory:** The main place where you will install, compile, and run ROMS is your working directory:
 
@@ -115,7 +155,7 @@ Note: Even though my username on klone is "pmacc" my main directory is "parker".
 
 #### Set up ssh-keygen to apogee
 
-The LO ROMS driver system tries to minimize the files we store on hyak, because the ROMS output files could quickly exceed our quotas.  To do this the drivers (e.d. LO/driver/driver_roms3.py) uses scp to copy forcing files and ROMS output files from apogee or perigee where we have lots of storage.  Then the driver automatically deletes unneeded files on hyak after each day it runs.  To allow the driver to do this automatically you have to grant it access to your account on perigee or apogee, using the ssh-keygen steps described here.
+The LO ROMS driver system tries to minimize the files we store on hyak, because the ROMS output files could quickly exceed our quotas.  To do this the drivers (e.d. LO/driver/driver_roms4.py) uses scp to copy forcing files and ROMS output files from apogee or perigee where we have lots of storage.  Then the driver automatically deletes unneeded files on hyak after each day it runs.  To allow the driver to do this automatically you have to grant it access to your account on perigee or apogee, using the ssh-keygen steps described here.
 
 Log onto klone1 and do:
 ```
@@ -188,9 +228,9 @@ Copy some of my code from https://github.com/parkermac/LO_roms_user into your LO
 This is the upwelling test case that comes with ROMS.  It is always the first thing you should try to run when moving to a new version of ROMS or a new machine.
 
 I have created a few files to run it on klone:
-- `build_roms.sh` modified from LO_roms_source_git/ROMS/Bin.  **You need to edit line 152 so that MY_ROOT_DIR is equal to your (+).**
+- `build_roms.sh` modified from LO_roms_source_git/ROMS/Bin.  **You need to edit line 173 so that MY_ROOT_DIR is equal to your (+).**
 - `upwelling.h` copied from LO_roms_source_git/ROMS/Include.  No need to edit.
-- `roms_upwelling.in` modified from LO_roms_source_git/ROMS/External.  **You will need to edit line 78 so that the path to varinfo.yaml points to (+).**
+- `roms_upwelling.in` modified from LO_roms_source_git/ROMS/External.  **You will need to edit line 76 so that the path to varinfo.yaml points to (+).**
 - `klone_batch0.sh` created from scratch.  **You will need to edit line 24 so that RUN_DIR points to (+).**
 
 After you have edited everything on your personal computer, push it to GitHub, and clone it to (+) on klone.
