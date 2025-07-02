@@ -242,7 +242,8 @@ fi
 #export        USE_OpenMP=on            # shared-memory parallelism
 
 #export              FORT=ifx
- export              FORT=ifort
+#export              FORT=ifort
+ export              FORT=mpiifort
 #export              FORT=gfortran
 #export              FORT=pgi
 
