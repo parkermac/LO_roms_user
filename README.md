@@ -229,6 +229,7 @@ This is the upwelling test case that comes with ROMS.  It is always the first th
 
 I have created a few files to run it on klone:
 - `build_roms.sh` modified from LO_roms_source_git/ROMS/Bin.  **You need to edit line 173 so that MY_ROOT_DIR is equal to your (+).**
+- You may also need to issue the command `chmod u+x build_roms.sh` so that you have permisssion to execute that script.
 - `upwelling.h` copied from LO_roms_source_git/ROMS/Include.  No need to edit.
 - `roms_upwelling.in` modified from LO_roms_source_git/ROMS/External.  **You will need to edit line 76 so that the path to varinfo.yaml points to (+).**
 - `klone_batch0.sh` created from scratch.  **You will need to edit line 24 so that RUN_DIR points to (+).**
