@@ -60,11 +60,37 @@ More specifics about nodes we can use:
 
 **-A macc -p compute**: These are the original klone nodes. We own 600 cores (15 nodes with 40 cores each). We are allocated 1 TB of storage for each node, so 15 TB total.
 
-**-A macc -p cpu-g2**: These are the new klone nodes. We own 480 cores (15 "slices" with 32 cores each). Each node consists of 6 slices, so we bought 5/6 of a node. The advantage of running on the these slices is that it is easier for the scheduler to allocate resources because they are all on one node. They are also faster. Currently 5 slices are reserved for the daily forecast system.
+**-A macc -p cpu-g2**: These are the new klone nodes. We own 480 cores (15 "slices" with 32 cores each). Each node consists of 6 slices, so we own 2.5 nodes. The advantage of running on the these slices is that it is easier for the scheduler to allocate resources because they are all on one node. They are also faster. **Currently 6 slices are reserved for the daily forecast system.**
 
 **-A coenv -p cpu-g2**: We own 320 cores (10 slices with 32 cores each). This is in a separate account because of the history of how they were purchased.
 
 **-p ckpt-g2**: These are cpu-g2 nodes that are available to anyone in the UW system, no -A account needed. They have proven to be useful even for long, large runs.
+
+--- 
+
+### Notes on using these resources
+
+#### There are some specific ways to make better use of these nodes, and knowing this will make your jobs start faster, and run more reliably.
+
+**For the old "compute" nodes** you would typically need to ask for more than one node. So for example to use 200 cores you would run with a command like:
+```
+python3 driver_roms4.py -np 200 -N 40 --cpu_choice compute --group_choice macc
+```
+And it will assign your job to run on 4 compute nodes (confirm using squeue).
+
+**For the new cpu-g2 nodes** the strategy is different, because each node has 192 cores. **So in almost all cases you really want to run on one node.** If you used the node strategy that we used for compute nodes then your job would be forced to be spread out accoss separate nodes, which makes it much harder for the sbatch system to allocate and run. You could do this using driver_roms4.py with a command like:
+```
+python3 driver_roms4.py -np 160 -N 160 --cpu_choice cpu-g2 --group_choice coenv
+```
+At least I think this should work - I haven't tested it yet. This should run your job on most of 1 node (again conform using squeue).
+
+I have also created a special driver that is tailored for the daily forecast, which I use with a command like:
+```
+python3 driver_roms5.py --group_choice macc --cpu_choice cpu-g2 -tpn 192
+```
+This uses a different batch script that is hard-coded to just use one node, and to use special sbatch commands: --exclusive and --mem=0. These force the scheduler to only allow you to use a node, and to use all the memory on the node.  I also created driver_roms5a.py that is for more general use, that does not have these special spatch commands.
+
+### In general everyone except for Parker should use `driver_roms4.py` using the guidelines above, and stick to the coenv/cpu-g2 or macc/compute or ckpt-g2 unless I specifically give you the okay to work on macc/cpu-g2.
 
 ---
 
