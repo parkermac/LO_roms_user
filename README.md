@@ -26,7 +26,7 @@ https://hyak.uw.edu/docs/compute/start-here
 
 I encourage yo to explore the tabs on the left of that page to answer any questions you have.
 
-`/gscratch/macc` is our working directory on klone because on hyak we are the "macc" group. I have created my own directory inside that: "parker", where all my code for running ROMS is stored. TO DO: How do I create directories for new members of our group?
+`/gscratch/macc` is our working directory on klone because on hyak we are the "macc" group. I have created my own directory inside that: "parker", where all my code for running ROMS is stored.
 
 Here are a few useful commands.
 
@@ -70,27 +70,24 @@ More specifics about nodes we can use:
 
 ### Notes on using these resources
 
-#### There are some specific ways to make better use of these nodes, and knowing this will make your jobs start faster, and run more reliably.
+#### The differences among these compute resources have been incoportated into the new driver_roms00.py. You need to specify three flag-value pairs:
 
-**For the old "compute" nodes** you would typically need to ask for more than one node. So for example to use 200 cores you would run with a command like:
-```
-python3 driver_roms4.py -np 200 -N 40 --cpu_choice compute --group_choice macc
-```
-And it will assign your job to run on 4 compute nodes (confirm using squeue).
+-grp [macc, conenv,] (not needed is using -cpu ckpt-g2)
 
-**For the new cpu-g2 nodes** the strategy is different, because each node has 192 cores. **So in almost all cases you really want to run on one node.** If you used the node strategy that we used for compute nodes then your job would be forced to be spread out accoss separate nodes, which makes it much harder for the sbatch system to allocate and run. You could do this using driver_roms4.py with a command like:
-```
-python3 driver_roms4.py -np 160 -N 160 --cpu_choice cpu-g2 --group_choice coenv
-```
-At least I think this should work - I haven't tested it yet. This should run your job on most of 1 node (again conform using squeue).
+-cpu [compute, cpu-g2]
 
-I have also created a special driver that is tailored for the daily forecast, which I use with a command like:
-```
-python3 driver_roms5.py --group_choice macc --cpu_choice cpu-g2 -tpn 192
-```
-This uses a different batch script that is hard-coded to just use one node, and to use special sbatch commands: --exclusive and --mem=0. These force the scheduler to only allow you to use a node, and to use all the memory on the node.  I also created driver_roms5a.py that is for more general use, that does not have these special spatch commands.
+-np [some number]
 
-### In general everyone except for Parker should use `driver_roms4.py` using the guidelines above, and stick to the coenv/cpu-g2 or macc/compute or ckpt-g2 unless I specifically give you the okay to work on macc/cpu-g2.
+For example:
+```
+python3 driver_roms00.py -grp macc -cpu compute -np 200 [plus other required flags]
+```
+
+**For the old "compute" nodes** you would want to use -np as some integer times 40, e.g. 40, 80, 200. If you use 200 for example your job will be using 5 nodes, which you can confirm sith squeue.
+
+**For the new cpu-g2 nodes** you would want to use -np as some integer times 32, e.g. 32, 64, 160, 192. It can be more reliable to have a job on one node, so 192 is a good maximum value.
+
+### In general everyone except for Parker should stick to the coenv/cpu-g2 or macc/compute or ckpt-g2 unless I specifically give you the okay to work on macc/cpu-g2.
 
 ---
 
@@ -98,7 +95,7 @@ This uses a different batch script that is hard-coded to just use one node, and 
 
 **First directory:** In your home directory (~) you will need to add some lines to your .bashrc using vi or whatever your favorite command line text editor is.
 
-Here is my .bashrc on klone as of 6/28/2025:
+Here is my .bashrc on klone as of 8/29/2025:
 
 ```
 # .bashrc
@@ -115,18 +112,20 @@ then
 fi
 export PATH
 
-#module load intel/oneAPI
 LODIR=/gscratch/macc/local
-#OMPI=${LODIR}/openmpi-ifort
 NFDIR=${LODIR}/netcdf-ifort
 NCDIR=${LODIR}/netcdf-icc
-PIODIR=${LODIR}/pio
-PNDIR=${PNDIR}/pnetcdf
-export LD_LIBRARY_PATH=${PIODIR}/lib:${PNDIR}:${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
-#export LD_LIBRARY_PATH=${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
 export PATH=/gscratch/macc/local/netcdf-ifort/bin:$PATH
 export PATH=/gscratch/macc/local/netcdf-icc/bin:$PATH
-#export PATH=/gscratch/macc/local/openmpi-ifort/bin:$PATH
+
+# New imports 2025.07.14 after Darr compiled newer NetCDF libraries
+#LODIR=/gscratch/macc/local
+#NFDIR=${LODIR}/netcdf-ifort-4.6.2
+#NCDIR=${LODIR}/netcdf-c-4.9.3
+#export LD_LIBRARY_PATH=${NFDIR}/lib:${NCDIR}/lib:${LD_LIBRARY_PATH}
+#export PATH=/gscratch/macc/local/netcdf-ifort-4.6.2/bin:$PATH
+#export PATH=/gscratch/macc/local/netcdf-c-4.9.3/bin:$PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
@@ -165,11 +164,11 @@ unset __conda_setup
 
 The section of aliases are what I use to help move around quickly.  You might want similar aliases but be sure to substitute the name of your working directory for "parker".
 
-In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF and MPI libraries.
+In particular you will need to copy and paste in the section with all the module and export lines.  These make sure you are using the right NetCDF libraries.
 
 The conda part was added automatically when I set up a python environment on klone. At this point, however you DO NOT need to create a new python environment on klone. The one that is already there is enough to do all our model runs.
 
-TO DO: I need to clean this up by getting rid of obsolete export calls, and setting the base working directory as a variable.
+TO DO: I need to set the base working directory as a variable.
 
 **Second directory:** The main place where you will install, compile, and run ROMS is your working directory:
 
@@ -181,7 +180,7 @@ Note: Even though my username on klone is "pmacc" my main directory is "parker".
 
 #### Set up ssh-keygen to apogee
 
-The LO ROMS driver system tries to minimize the files we store on hyak, because the ROMS output files could quickly exceed our quotas.  To do this the drivers (e.d. LO/driver/driver_roms4.py) uses scp to copy forcing files and ROMS output files from apogee or perigee where we have lots of storage.  Then the driver automatically deletes unneeded files on hyak after each day it runs.  To allow the driver to do this automatically you have to grant it access to your account on perigee or apogee, using the ssh-keygen steps described here.
+The LO ROMS driver system tries to minimize the files we store on hyak, because the ROMS output files could quickly exceed our quotas.  To do this the drivers (e.d. LO/driver/driver_roms00.py) uses scp to copy forcing files and ROMS output files from apogee or perigee where we have lots of storage.  Then the driver automatically deletes unneeded files on hyak after each day it runs.  To allow the driver to do this automatically you have to grant it access to your account on perigee or apogee, using the ssh-keygen steps described here.
 
 Log onto klone1 and do:
 ```
@@ -270,7 +269,7 @@ Working on klone **in the directory LO_roms_user/upwelling**, do these steps, wa
 ```
 srun -p compute -A macc --pty bash -l
 ```
-The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command. I also have `pmsrun2` to use "-p cpu-g2", the next-generation nodes. Don't use these without checking with Parker; some are reserved for the daily forecast system!
+The purpose of this is to log you onto one of our compute nodes because in the hyak system you are supposed to compile on a compute node, leaving the head node for stuff like running our drivers and moving files around.  You should notice that your prompt changes, now showing which node number you are on. Any user in the LiveOcean group should be able to use this command as-is because "macc" refers to our group ownership of nodes, not a single user.  Note that in my .bashrc I made an alias `pmsrun` for this hard-to-remember command. I also have `pmsrun2` to use "-p cpu-g2", the next-generation nodes. Don't use these without checking with Parker; some are reserved for the daily forecast system! It makes no difference which nodes you use to compile on.
 
 Then before you can do the compiling on klone you have to do:
 ```
@@ -285,11 +284,11 @@ Then to actually compile you do:
 
 This will take about ten minutes, spew a lot of text to bld.log, and result in the executable `romsM`. It also makes a folder `Build_romsM` full of intermediate things such as the .f90 files that result from the preprocessing of the original .F files. I have this aliased as `buildit` in my .bashrc.
 
-The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each node on klone had 40 cores (or 32 if we were using the cpu-g2 partition).
+The `-j 10` argument means that we use 10 cores to compile, which is faster.  Note that each compute node on klone had 40 cores (or 32 if we were using the cpu-g2 partition).
 
 On occasion I have a problem where keyboard input (like hitting Return because you are impatient) causes the job to stop.  That is why I added the `< /dev/null` thing to this command.
 
-#### >>> After compiling is done, DO NOT FORGET TO: <<<
+#### >>> IMPORTANT: After compiling is done, DO NOT FORGET TO: <<<
 ```
 logout
 ```
@@ -307,7 +306,7 @@ If it ran correctly it will create a log file roms_log.txt and NetCDf output: ro
 
 #### Running things by cron
 
-These are mainly used by the daily forecast but can also be helpful for checking on long hindcasts and sending you an email. See LO/driver/crontabs for my current versions.  These are discussed more in LO/README.md.
+These are mainly used by the daily forecast but can also be helpful for checking on long hindcasts and sending you an email. See LO/driver/crontabs for my current versions.  You can look at these to see examples of the commands I use with driver forcing and driver_roms.
 
 ---
 
@@ -338,9 +337,17 @@ Like x11ab but defining averages. Intended for daily saves.
 
 #### xn11b
 
-Like x11b but without tides. Intended for nested runs.
+Like x11b but without tides. Used for nested runs.
 
 ---
+
+#### xa0
+
+Meant for an analytical run. Basically identical to x4b but with the atmospheric forcing set to zero, and biology turned off. This replaces uu1k which did the same thing previously.
+
+---
+
+## OLD
 
 #### x10ab
 
@@ -374,15 +381,9 @@ Like x4 but with the tidal tractive force turned on.
 
 ---
 
-#### xa0
-
-Meant for an analytical run. Basically identical to x4b but with the atmospheric forcing set to zero, and biology turned off. This replaces uu1k which did the same thing previously.
-
----
-
 ## OBSOLETE
 
-Mostly I call these _obsolete_ becasue they use the somewhat older ROMS we had from svn, and they rely on varinfo.yaml in LO_roms_source_alt. But some of them are being used for the current daily forecast, specifically xn0b.
+Mostly I call these _obsolete_ becasue they use the somewhat older ROMS we had from svn, and they rely on varinfo.yaml in LO_roms_source_alt.
 
 #### uu0mb
 
