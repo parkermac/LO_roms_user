@@ -198,7 +198,7 @@ export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source_git
 # ${MY_ROMS_SRC}/Compilers. If this is the case, you need to keep these
 # configurations files up-to-date.
 
- export         COMPILERS=${MY_ROMS_SRC}/Compilers
+ export         COMPILERS=${MY_PROJECT_DIR}
 #export         COMPILERS=${HOME}/Compilers/ROMS
 
 #--------------------------------------------------------------------------
