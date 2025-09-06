@@ -37,7 +37,11 @@
 # First the defaults
 #
                FC := ifort
-           FFLAGS := -fp-model precise
+           # NEW 2025.09.06 Parker
+           # FFLAGS := -fp-model precise
+           FFLAGS := -fp-model strict
+           FFLAGS += -mp1
+           # End NEW
            FFLAGS += -heap-arrays
        FIXEDFLAGS := -nofree
         FREEFLAGS := -free
@@ -79,9 +83,6 @@ ifdef USE_ROMS
            FFLAGS += -ip -O3
            FFLAGS += -traceback
            FFLAGS += -check uninit
-           # NEW 2025.09.06
-           FFLAGS += -mp1
-           FFLAGS += -fp-model strict
  endif
  ifdef SHARED
           LDFLAGS += -Wl,-rpath,$(BUILD_DIR)
