@@ -32,6 +32,7 @@
 #undef AVERAGES
 #define WET_DRY
 #define OMEGA_IMPLICIT
+#define OUT_DOUBLE
 
 #define RADIATION_2D
 #define SSH_TIDES
