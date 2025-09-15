@@ -1668,7 +1668,7 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
               DO i=Istr,Iend
 !jx
 #ifdef BURY
-                cff1=FC(i,0)*Hz_inv(i,1)*(1-bury_region(i,j))
+                cff1=FC(i,0)*Hz_inv(i,1)*(1.0_r8-bury_region(i,j))
 #else
                 cff1=FC(i,0)*Hz_inv(i,1)
 #endif
@@ -1747,7 +1747,7 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
      &          (ibio.eq.iLDeC))THEN
               DO i=Istr,Iend
 #ifdef BURY
-                cff1=FC(i,0)*Hz_inv(i,1)*(1-bury_region(i,j))
+                cff1=FC(i,0)*Hz_inv(i,1)*(1.0_r8-bury_region(i,j))
 #else
                 cff1=FC(i,0)*Hz_inv(i,1)
 #endif                                 
