@@ -45,6 +45,11 @@
 # ifdef BIOLOGY
       USE biology_mod,          ONLY : biology
 # endif
+! PM Edit
+# ifdef OAE_BGC
+      USE mod_oae,              ONLY : oae
+# endif
+! End PM Edit
 # ifdef BBL_MODEL
       USE bbl_mod,              ONLY : bblm
 # endif
@@ -1035,6 +1040,11 @@
 # ifdef BIOLOGY
                 CALL biology (ng, tile)
 # endif
+! PM Edit
+# ifdef OAE_BGC
+      CALL oae (ng, tile, iic(ng))
+# endif
+! End PM Edit
 # ifdef SEDIMENT
                 CALL sediment (ng, tile)
 # endif

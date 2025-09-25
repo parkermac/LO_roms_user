@@ -250,6 +250,12 @@
 !
       USE dateclock_mod, ONLY : caldate
 !
+! PM Edit
+#ifdef OAE_BGC
+!     USE mod_oae, ONLY : OAE ! Should not need this line at all
+      USE mod_oae, ONLY : FIX_CFF3
+#endif
+! End PM Edit
 !  Imported variable declarations.
 !
       integer, intent(in) :: ng, tile
@@ -1314,7 +1320,13 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
             SchmidtN_Ox=A_O2-Bio(i,k,itemp)*(B_O2-Bio(i,k,itemp)*(C_O2- &
      &                                            Bio(i,k,itemp)*(D_O2- &
      &                                            Bio(i,k,itemp)*E_O2)))
+! PM Edit
+#ifdef KVALUE_ECB
+            CALL FIX_CFF3(cff2*u10squ*SQRT(660.0_r8/SchmidtN),cff3,pH(i,j),dtdays)
+#else
             cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN_Ox)
+#endif
+! End PM Edit
 !
 !  Calculate O2 saturation concentration using Garcia and Gordon
 !  L and O (1992) formula, (EXP(AA) is in ml/l).
