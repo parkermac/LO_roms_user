@@ -190,7 +190,7 @@ export     MY_PROJECT_DIR=${PWD}
 # computers.
 
 #export       MY_ROMS_SRC=${MY_ROOT_DIR}/roms
-export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source_git
+export       MY_ROMS_SRC=${MY_ROOT_DIR}/LO_roms_source_ecb
 
 # Set path of the directory containing makefile configuration (*.mk) files.
 # The user has the option to specify a customized version of these files
