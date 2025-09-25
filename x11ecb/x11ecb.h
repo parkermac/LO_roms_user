@@ -58,6 +58,11 @@
 #  define INCREASE_ATTSW  /*jx*/
 #  undef INCREASE_NO3LOSS /*jx*/
 #  define BURY           /*jx*/
+/* from Kyle Hinson */
+# define KVALUE_ECB
+# define LOSTCO3
+# define OAE_BGC
+/* End from Kyle Hinson */
 #endif
 
 #define GLS_MIXING
