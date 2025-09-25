@@ -343,6 +343,10 @@ Like x11b but without tides. Used for nested runs.
 
 A test of using different compiler flags (part of the bit-reproducibility effort). In bould_roms.sh you can just point to a local version fo Lunux-ifort.mk and make the edits there. This run also defined OUT_DOUBLE in the cppdefs; this proved to be very informative in the exploration of numerical "noise."
 
+#### x11ecb
+
+Code based on x11ab but incorporating a new carbon module from Kyle Hinson. Part of the ARPA-e mCDR project. 2025.09.25
+
 ---
 
 #### xa0
