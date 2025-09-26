@@ -123,7 +123,7 @@
       implicit none
 !
       PRIVATE
-      PUBLIC  :: biology
+      PUBLIC  :: biology, pCO2_water_RZ
 !
       CONTAINS
 !
