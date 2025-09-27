@@ -347,6 +347,10 @@ A test of using different compiler flags (part of the bit-reproducibility effort
 
 Code based on x11ab but incorporating a new carbon module from Kyle Hinson. Part of the ARPA-e mCDR project. 2025.09.25
 
+#### x11
+
+Just like x11b for without biology. So this just runs the physics. Intended for debugging blowups. 2025.09.27
+
 ---
 
 #### xa0
