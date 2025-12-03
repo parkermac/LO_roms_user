@@ -123,7 +123,7 @@
       implicit none
 !
       PRIVATE
-      PUBLIC  :: biology, pCO2_water_RZ
+      PUBLIC  :: biology
 !
       CONTAINS
 !
@@ -250,12 +250,6 @@
 !
       USE dateclock_mod, ONLY : caldate
 !
-! PM Edit
-#ifdef OAE_BGC
-!     USE mod_oae, ONLY : OAE ! Should not need this line at all
-      USE mod_oae, ONLY : FIX_CFF3
-#endif
-! End PM Edit
 !  Imported variable declarations.
 !
       integer, intent(in) :: ng, tile
@@ -1441,13 +1435,7 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
             SchmidtN=A_CO2-Bio(i,k,itemp)*(B_CO2-Bio(i,k,itemp)*(C_CO2- &
      &                                           Bio(i,k,itemp)*(D_CO2- &
      &                                           Bio(i,k,itemp)*E_CO2)))
-! PM Edit
-#ifdef KVALUE_ECB
-     CALL FIX_CFF3(cff2*u10squ*SQRT(660.0_r8/SchmidtN),cff3,pH(i,j),dtdays)
-#else
-      cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN)
-#endif
-! End PM Edit
+            cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN)
 !
 !  Calculate CO2 solubility [mol/(kg.atm)] using Weiss (1974) formula.
 !

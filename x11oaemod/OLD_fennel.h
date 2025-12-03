@@ -1320,7 +1320,13 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
             SchmidtN_Ox=A_O2-Bio(i,k,itemp)*(B_O2-Bio(i,k,itemp)*(C_O2- &
      &                                            Bio(i,k,itemp)*(D_O2- &
      &                                            Bio(i,k,itemp)*E_O2)))
+! PM Edit
+#ifdef KVALUE_ECB
+            CALL FIX_CFF3(cff2*u10squ*SQRT(660.0_r8/SchmidtN),cff3,pH(i,j),dtdays)
+#else
             cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN_Ox)
+#endif
+! End PM Edit
 !
 !  Calculate O2 saturation concentration using Garcia and Gordon
 !  L and O (1992) formula, (EXP(AA) is in ml/l).
@@ -1441,13 +1447,7 @@ real(r8) :: Epp, L_NH4, L_NO3, LTOT, Vp
             SchmidtN=A_CO2-Bio(i,k,itemp)*(B_CO2-Bio(i,k,itemp)*(C_CO2- &
      &                                           Bio(i,k,itemp)*(D_CO2- &
      &                                           Bio(i,k,itemp)*E_CO2)))
-! PM Edit
-#ifdef KVALUE_ECB
-     CALL FIX_CFF3(cff2*u10squ*SQRT(660.0_r8/SchmidtN),cff3,pH(i,j),dtdays)
-#else
-      cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN)
-#endif
-! End PM Edit
+            cff3=cff2*u10squ*SQRT(660.0_r8/SchmidtN)
 !
 !  Calculate CO2 solubility [mol/(kg.atm)] using Weiss (1974) formula.
 !
