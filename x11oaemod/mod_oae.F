@@ -715,9 +715,10 @@
         DO i=Istr,Iend
           DO k=1,N(ng)
 !            t(i,j,k,nnew,iTIC_) = -9999.0_r8
-            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_)                   &
-     &      - sp_crystal_tile(i,j,k) * Hz(i,j,k)                        &
-     &      + REC_CO3(i,j,k) * Hz(i,j,k)
+            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_) + 0.0_r8
+!            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_)                   &
+!     &      - sp_crystal_tile(i,j,k) * Hz(i,j,k)                        &
+!     &      + REC_CO3(i,j,k) * Hz(i,j,k)
 !           t(i,j,k,nnew,iTAlk) = -9999.0_r8
 !           write(*,*) 'Original t(i,j,k,nnew,iTAlk),i,j,k=',t(i,j,k,nnew,iTAlk),i,j,k
            t(i,j,k,nnew,iTAlk) = t(i,j,k,nnew,iTAlk)                    &
