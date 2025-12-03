@@ -856,7 +856,7 @@
      &       Istr, Iend, LBi, UBi, LBj, UBj, IminS, ImaxS,              &
      &       j,                                                         &
 # ifdef MASKING
-          &       rmask,                                                     &
+     &       rmask,                                                     &
 # endif
      &       zvec, TempC, Sal, TIC, pH, aragValue)
       implicit none
@@ -876,7 +876,7 @@
 !
       real( r8 ), intent(in   ) ::                                      &
 # ifdef MASKING
-      &  rmask( LBi : UBi, LBj : UBj ),                                  &
+     &  rmask( LBi : UBi, LBj : UBj ),                                  &
 # endif
 !    &  hbot(  LBi : UBi, LBj : UBj ),                                  &
      &  zvec(  IminS : ImaxS        ),                                  &
