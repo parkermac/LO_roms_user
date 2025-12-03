@@ -877,7 +877,7 @@
       real( r8 ), intent(in   ) ::                                      &
 # ifdef MASKING
       &  rmask( LBi : UBi, LBj : UBj ),                                  &
- # endif
+# endif
 !    &  hbot(  LBi : UBi, LBj : UBj ),                                  &
      &  zvec(  IminS : ImaxS        ),                                  &
      &  TempC( IminS : ImaxS        ),                                  &
