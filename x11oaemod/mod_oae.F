@@ -323,7 +323,6 @@
           END DO
         END DO
 
-#ifdef OAE_BGC
 !
 !-----------------------------------------------------------------------
 !  Calculate aragonite saturation state based on pH and other factors
@@ -618,8 +617,7 @@
 
 
 !       END DO ITER_LOOP
-! end if statement for OAE flag
-#endif
+
 !      end do J_LOOP
 
 
@@ -1310,6 +1308,7 @@
 !             cff3=MAX(cff2p5,0.00111_r8) ! where to modify CO2 flux KH
       end SUBROUTINE FIX_CFF3
 
+! end if statement for OAE_BGC flag
 #endif
 
 

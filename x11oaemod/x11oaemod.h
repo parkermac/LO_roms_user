@@ -53,7 +53,7 @@
 #  define pCO2_RZ
 #  define PCO2AIR_SECULAR
 #  define TALK_NONCONSERV
-#  undef ANA_SPFLUX
+#  define ANA_SPFLUX
 #  define ANA_BPFLUX
 #  define INCREASE_ATTSW  /*jx*/
 #  undef INCREASE_NO3LOSS /*jx*/

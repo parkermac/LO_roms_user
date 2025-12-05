@@ -61,6 +61,11 @@
 #                                                                       :::
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+# PM Edits 2025.12.05 Automating copying of source code,
+# because it is easy to forget!
+scp ./main3d.F /gscratch/macc/parker/LO_roms_source_ecb/ROMS/Nonlinear
+scp ./mod_oae.F /gscratch/macc/parker/LO_roms_source_ecb/ROMS/Nonlinear/Biology
+
 export which_MPI=openmpi                       # default, overwritten below
 
 g_flags=0
