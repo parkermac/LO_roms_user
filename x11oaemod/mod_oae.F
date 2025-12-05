@@ -749,7 +749,7 @@
      &       Istr, Iend, LBi, UBi, LBj, UBj, IminS, ImaxS,              &
      &       j,                                                         &
 # ifdef MASKING
-          &       rmask,                                                     &
+     &       rmask,                                                     &
 # endif
      &       zvec, TempC, Sal, TIC, pH, CO3 )
       implicit none
