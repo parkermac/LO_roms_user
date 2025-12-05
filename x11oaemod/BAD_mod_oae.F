@@ -323,7 +323,6 @@
           END DO
         END DO
 
-#ifdef OAE_BGC
 !
 !-----------------------------------------------------------------------
 !  Calculate aragonite saturation state based on pH and other factors
@@ -618,8 +617,7 @@
 
 
 !       END DO ITER_LOOP
-! end if statement for OAE flag
-#endif
+
 !      end do J_LOOP
 
 
@@ -715,9 +713,10 @@
         DO i=Istr,Iend
           DO k=1,N(ng)
 !            t(i,j,k,nnew,iTIC_) = -9999.0_r8
-            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_)                   &
-     &      - sp_crystal_tile(i,j,k) * Hz(i,j,k)                        &
-     &      + REC_CO3(i,j,k) * Hz(i,j,k)
+            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_) + 0.0_r8
+!            t(i,j,k,nnew,iTIC_) = t(i,j,k,nnew,iTIC_)                   &
+!     &      - sp_crystal_tile(i,j,k) * Hz(i,j,k)                        &
+!     &      + REC_CO3(i,j,k) * Hz(i,j,k)
 !           t(i,j,k,nnew,iTAlk) = -9999.0_r8
 !           write(*,*) 'Original t(i,j,k,nnew,iTAlk),i,j,k=',t(i,j,k,nnew,iTAlk),i,j,k
            t(i,j,k,nnew,iTAlk) = t(i,j,k,nnew,iTAlk)                    &
@@ -855,7 +854,7 @@
      &       Istr, Iend, LBi, UBi, LBj, UBj, IminS, ImaxS,              &
      &       j,                                                         &
 # ifdef MASKING
-          &       rmask,                                                     &
+     &       rmask,                                                     &
 # endif
      &       zvec, TempC, Sal, TIC, pH, aragValue)
       implicit none
@@ -875,8 +874,8 @@
 !
       real( r8 ), intent(in   ) ::                                      &
 # ifdef MASKING
-      &  rmask( LBi : UBi, LBj : UBj ),                                  &
- # endif
+     &  rmask( LBi : UBi, LBj : UBj ),                                  &
+# endif
 !    &  hbot(  LBi : UBi, LBj : UBj ),                                  &
      &  zvec(  IminS : ImaxS        ),                                  &
      &  TempC( IminS : ImaxS        ),                                  &
@@ -1309,7 +1308,8 @@
 !             cff3=MAX(cff2p5,0.00111_r8) ! where to modify CO2 flux KH
       end SUBROUTINE FIX_CFF3
 
+! end if statement for OAE_BGC flag
 #endif
-#endif
+
 
       end MODULE mod_oae
