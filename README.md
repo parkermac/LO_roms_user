@@ -72,7 +72,7 @@ More specifics about nodes we can use:
 
 #### The differences among these compute resources have been incoportated into the new driver_roms00.py. You need to specify three flag-value pairs:
 
--grp [macc, conenv,] (not needed is using -cpu ckpt-g2)
+-grp [macc, conenv,] (not needed if using -cpu ckpt-g2)
 
 -cpu [compute, cpu-g2]
 
@@ -88,6 +88,25 @@ python3 driver_roms00.py -grp macc -cpu compute -np 200 [plus other required fla
 **For the new cpu-g2 nodes** you would want to use -np as some integer times 32, e.g. 32, 64, 160, 192. It can be more reliable to have a job on one node, so 192 is a good maximum value.
 
 ### In general everyone except for Parker should stick to the coenv/cpu-g2 or macc/compute or ckpt-g2 unless I specifically give you the okay to work on macc/cpu-g2.
+
+---
+
+### Some resources specific to the coenv nodes
+
+**Useful email: esits-hyak@u.washington.edu**
+- This mailman list was created to help facilitate communications between all the COENV Hyak owners and users, with an emphasis on this list being used to:
+- Communicate when there is a job/scheduling issue within the COENV nodes with hopes that a resolution will be handled by this group.
+- Communicate when your job would benefit from extra nodes/cores past what your group has purchased.  This requires permission from your fellow COENV node owners and users.
+- Allows eSITS to monitor COENV communications and step in for assistance or resolution as needed or required.
+
+**Useful commands**
+There are some new commands available to College of the Environment Hyak users that should help increase the visibility of our shared Hyak compute resources. Note: to access the commands below, run this script, then log out and log back into your Hyak terminal: 
+```
+/gscratch/coenv/shared/bin/coenv_install.sh
+```
+**coenvalloc** prints out a summary of the current usage of allocated coenv Hyak resources, broken down by PI Group. By default only the current user's PI Group is shown, but you can view all groups using the '--all' option.
+
+**coenvjobs** shows a summary of jobs that are currently running under the coenv, broken down by PI group. As with coenvalloc, the default is to only show the current PI group's jobs, but you can see all jobs using the '--all' option.
 
 ---
 
